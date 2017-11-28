@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+
+<head>
+  <title>Test with external script</title>
+  <meta charset="utf-8">
+  <script src="sigma.min.js"></script>
+  <script src="plugins/sigma.layout.forceAtlas2/worker.js"></script>
+  <script src="plugins/sigma.layout.forceAtlas2/supervisor.js"></script>
+  <script src="plugins/sigma.renderers.edgeLabels/settings.js"></script>
+  <script src="plugins/sigma.renderers.edgeLabels/sigma.canvas.edges.labels.curve.js"></script>
+  <script src="plugins/sigma.renderers.edgeLabels/sigma.canvas.edges.labels.def.js"></script>
+  <script src="plugins/sigma.renderers.edgeLabels/sigma.canvas.edges.labels.curvedArrow.js"></script>
+  <script src="plugins/sigma.plugins.dragNodes/sigma.plugins.dragNodes.js"></script>
+  <script src="plugins/sigma.plugins.animate/sigma.plugins.animate.js"></script>
+  <script src="plugins/sigma.plugins.relativeSize/sigma.plugins.relativeSize.js"></script>
+  <script src="plugins/sigma.layout.noverlap/sigma.layout.noverlap.js"></script>
+  <script src="src/renderers/canvas/sigma.canvas.nodes.def.js"></script>
+  <script src="plugins/sigma.exporters.svg/sigma.exporters.svg.js"></script>
+  <script src="plugins/sigma.renderers.snapshot/sigma.renderers.snapshot.js"></script>
+  <script src="plugins/sigma.layouts.fruchtermanReingold/sigma.layout.fruchtermanReingold.js"></script>
+  <script src="plugins/sigma.plugins.filter/sigma.plugins.filter.js"></script>
+  <script src="src/middlewares/sigma.middlewares.rescale.js"></script>
+
+<!-- JQUERY-->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<!-- JSOC -->
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/jquery.jssocials/1.4.0/jssocials.min.js"></script>
+  <link type="text/css" rel="stylesheet" href="https://cdn.jsdelivr.net/jquery.jssocials/1.4.0/jssocials.css" />
+  <link type="text/css" rel="stylesheet" href="https://cdn.jsdelivr.net/jquery.jssocials/1.4.0/jssocials-theme-flat.css" >
+
+<!-- custom dariah script -->
+  <script type="text/javascript" src="vis.js"></script>
+
+<!-- custom styling -->
+<link rel="stylesheet" type="text/css" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/themes/base/jquery-ui.css">
+<link rel="stylesheet" href="style.css">
+
+</head>
+
+<body>
+
+
+<div id="blackboard"></div>
+
+
+
+  <!-- call the external script with data here -->
+<script>
+var data = {"edges":[{"source":"11","target":"17","id":"0"},{"source":"6","target":"29","id":"1"},{"source":"16","target":"11","id":"2"},{"source":"18","target":"11","id":"3"},{"source":"25","target":"10","id":"4"},{"source":"8","target":"39","id":"5"},{"source":"27","target":"39","id":"6"},{"source":"6","target":"39","id":"7"},{"source":"44","target":"29","id":"8"},{"source":"40","target":"20","id":"9"},{"source":"38","target":"12","id":"10"},{"source":"24","target":"20","id":"11"},{"source":"35","target":"39","id":"12"},{"source":"38","target":"39","id":"13"},{"source":"2","target":"16","id":"14"},{"source":"47","target":"12","id":"15"},{"source":"22","target":"25","id":"16"},{"source":"24","target":"25","id":"17"},{"source":"35","target":"45","id":"18"},{"source":"23","target":"38","id":"19"},{"source":"26","target":"17","id":"20"},{"source":"37","target":"8","id":"21"},{"source":"21","target":"30","id":"22"},{"source":"37","target":"30","id":"23"},{"source":"31","target":"11","id":"24"},{"source":"14","target":"19","id":"25"},{"source":"39","target":"40","id":"26"},{"source":"20","target":"40","id":"27"},{"source":"40","target":"32","id":"28"},{"source":"28","target":"1","id":"29"},{"source":"19","target":"26","id":"30"},{"source":"2","target":"19","id":"31"},{"source":"34","target":"43","id":"32"},{"source":"48","target":"22","id":"33"},{"source":"23","target":"3","id":"34"},{"source":"30","target":"8","id":"35"},{"source":"26","target":"42","id":"36"},{"source":"27","target":"47","id":"37"},{"source":"16","target":"4","id":"38"},{"source":"3","target":"13","id":"39"},{"source":"19","target":"42","id":"40"},{"source":"20","target":"7","id":"41"},{"source":"30","target":"20","id":"42"},{"source":"26","target":"14","id":"43"},{"source":"34","target":"16","id":"44"},{"source":"7","target":"4","id":"45"},{"source":"28","target":"42","id":"46"},{"source":"35","target":"38","id":"47"},{"source":"25","target":"37","id":"48"},{"source":"47","target":"6","id":"49"},{"source":"8","target":"4","id":"50"},{"source":"37","target":"35","id":"51"},{"source":"20","target":"11","id":"52"},{"source":"47","target":"1","id":"53"},{"source":"33","target":"7","id":"54"},{"source":"13","target":"1","id":"55"},{"source":"5","target":"22","id":"56"},{"source":"39","target":"0","id":"57"},{"source":"23","target":"35","id":"58"},{"source":"13","target":"12","id":"59"},{"source":"14","target":"24","id":"60"},{"source":"7","target":"3","id":"61"},{"source":"12","target":"26","id":"62"},{"source":"37","target":"44","id":"63"},{"source":"18","target":"5","id":"64"},{"source":"10","target":"42","id":"65"},{"source":"15","target":"20","id":"66"},{"source":"21","target":"23","id":"67"},{"source":"38","target":"17","id":"68"},{"source":"24","target":"8","id":"69"},{"source":"16","target":"32","id":"70"},{"source":"27","target":"26","id":"71"},{"source":"14","target":"28","id":"72"},{"source":"37","target":"34","id":"73"},{"source":"44","target":"23","id":"74"},{"source":"45","target":"29","id":"75"},{"source":"13","target":"12","id":"76"},{"source":"43","target":"29","id":"77"},{"source":"35","target":"32","id":"78"},{"source":"18","target":"22","id":"79"},{"source":"31","target":"29","id":"80"},{"source":"46","target":"19","id":"81"},{"source":"5","target":"15","id":"82"},{"source":"39","target":"24","id":"83"},{"source":"6","target":"13","id":"84"},{"source":"47","target":"40","id":"85"},{"source":"12","target":"22","id":"86"},{"source":"19","target":"18","id":"87"},{"source":"26","target":"27","id":"88"},{"source":"44","target":"0","id":"89"},{"source":"47","target":"3","id":"90"},{"source":"24","target":"35","id":"91"},{"source":"23","target":"30","id":"92"},{"source":"10","target":"39","id":"93"},{"source":"38","target":"9","id":"94"},{"source":"21","target":"22","id":"95"},{"source":"29","target":"25","id":"96"},{"source":"35","target":"0","id":"97"},{"source":"23","target":"2","id":"98"},{"source":"48","target":"16","id":"99"},{"source":"9","target":"44","id":"100"},{"source":"42","target":"7","id":"101"},{"source":"34","target":"3","id":"102"},{"source":"20","target":"9","id":"103"},{"source":"9","target":"5","id":"104"},{"source":"34","target":"2","id":"105"},{"source":"42","target":"21","id":"106"},{"source":"15","target":"39","id":"107"},{"source":"7","target":"21","id":"108"},{"source":"16","target":"23","id":"109"},{"source":"11","target":"30","id":"110"},{"source":"4","target":"42","id":"111"},{"source":"22","target":"47","id":"112"},{"source":"36","target":"38","id":"113"},{"source":"47","target":"1","id":"114"},{"source":"42","target":"36","id":"115"},{"source":"6","target":"4","id":"116"},{"source":"4","target":"43","id":"117"},{"source":"13","target":"33","id":"118"},{"source":"41","target":"48","id":"119"},{"source":"19","target":"46","id":"120"},{"source":"35","target":"7","id":"121"},{"source":"27","target":"14","id":"122"},{"source":"18","target":"14","id":"123"},{"source":"32","target":"28","id":"124"},{"source":"33","target":"10","id":"125"},{"source":"21","target":"19","id":"126"},{"source":"28","target":"24","id":"127"},{"source":"28","target":"26","id":"128"},{"source":"20","target":"23","id":"129"},{"source":"13","target":"39","id":"130"},{"source":"21","target":"44","id":"131"},{"source":"11","target":"21","id":"132"},{"source":"48","target":"9","id":"133"},{"source":"25","target":"3","id":"134"},{"source":"26","target":"34","id":"135"},{"source":"34","target":"10","id":"136"},{"source":"10","target":"20","id":"137"},{"source":"29","target":"19","id":"138"},{"source":"37","target":"44","id":"139"},{"source":"8","target":"21","id":"140"},{"source":"22","target":"14","id":"141"},{"source":"28","target":"19","id":"142"},{"source":"37","target":"21","id":"143"},{"source":"32","target":"43","id":"144"},{"source":"48","target":"30","id":"145"},{"source":"28","target":"29","id":"146"},{"source":"23","target":"16","id":"147"},{"source":"27","target":"39","id":"148"},{"source":"48","target":"34","id":"149"},{"source":"34","target":"27","id":"150"},{"source":"8","target":"42","id":"151"},{"source":"12","target":"31","id":"152"},{"source":"11","target":"24","id":"153"},{"source":"41","target":"38","id":"154"},{"source":"47","target":"47","id":"155"},{"source":"7","target":"27","id":"156"},{"source":"22","target":"23","id":"157"},{"source":"4","target":"30","id":"158"},{"source":"29","target":"5","id":"159"},{"source":"34","target":"28","id":"160"},{"source":"44","target":"11","id":"161"},{"source":"10","target":"38","id":"162"},{"source":"29","target":"28","id":"163"},{"source":"3","target":"41","id":"164"},{"source":"4","target":"9","id":"165"},{"source":"32","target":"23","id":"166"},{"source":"19","target":"39","id":"167"},{"source":"4","target":"27","id":"168"},{"source":"44","target":"1","id":"169"},{"source":"13","target":"16","id":"170"},{"source":"14","target":"33","id":"171"},{"source":"6","target":"9","id":"172"},{"source":"47","target":"47","id":"173"},{"source":"2","target":"39","id":"174"},{"source":"32","target":"22","id":"175"},{"source":"9","target":"18","id":"176"},{"source":"32","target":"35","id":"177"},{"source":"36","target":"26","id":"178"},{"source":"12","target":"45","id":"179"},{"source":"9","target":"47","id":"180"},{"source":"26","target":"1","id":"181"},{"source":"4","target":"25","id":"182"},{"source":"47","target":"40","id":"183"},{"source":"18","target":"3","id":"184"},{"source":"43","target":"21","id":"185"},{"source":"36","target":"22","id":"186"},{"source":"31","target":"34","id":"187"},{"source":"42","target":"24","id":"188"},{"source":"30","target":"5","id":"189"},{"source":"1","target":"26","id":"190"},{"source":"27","target":"24","id":"191"},{"source":"44","target":"40","id":"192"},{"source":"38","target":"20","id":"193"},{"source":"18","target":"47","id":"194"},{"source":"18","target":"36","id":"195"},{"source":"33","target":"38","id":"196"},{"source":"13","target":"22","id":"197"},{"source":"15","target":"33","id":"198"},{"source":"42","target":"25","id":"199"},],"nodes":[{"id":"0","label":"hades","ntl":"persian","tpl":"transcriber"},{"id":"1","label":"aether","ntl":"unknown","tpl":"demi god"},{"id":"2","label":"hermes","ntl":"unknown","tpl":"mythological figure"},{"id":"3","label":"pluto","ntl":"unknown","tpl":"mythological figure"},{"id":"4","label":"helios","ntl":"persian","tpl":"god"},{"id":"5","label":"momus","ntl":"unknown","tpl":"transcriber"},{"id":"6","label":"hermes","ntl":"barbarian","tpl":"transcriber"},{"id":"7","label":"apollo","ntl":"persian","tpl":"bard"},{"id":"8","label":"hephaestus","ntl":"egyptian","tpl":"bard"},{"id":"9","label":"pluto","ntl":"unknown","tpl":"mythological figure"},{"id":"10","label":"arisaeus","ntl":"roman","tpl":"mythological figure"},{"id":"11","label":"priapus","ntl":"helenistic","tpl":"god"},{"id":"12","label":"arisaeus","ntl":"greek","tpl":"god"},{"id":"13","label":"plutus","ntl":"egyptian","tpl":"god"},{"id":"14","label":"asclepius","ntl":"barbarian","tpl":"author"},{"id":"15","label":"dionysus","ntl":"unknown","tpl":"bard"},{"id":"16","label":"apollo","ntl":"greek","tpl":"transcriber"},{"id":"17","label":"uranus","ntl":"egyptian","tpl":"mythological figure"},{"id":"18","label":"hephaestus","ntl":"helenistic","tpl":"god"},{"id":"19","label":"prometheus","ntl":"barbarian","tpl":"transcriber"},{"id":"20","label":"helios","ntl":"greek","tpl":"bard"},{"id":"21","label":"ares","ntl":"helenistic","tpl":"bard"},{"id":"22","label":"priapus","ntl":"greek","tpl":"author"},{"id":"23","label":"hades","ntl":"roman","tpl":"author"},{"id":"24","label":"apollo","ntl":"roman","tpl":"mythological figure"},{"id":"25","label":"dionysus","ntl":"helenistic","tpl":"author"},{"id":"26","label":"uranus","ntl":"barbarian","tpl":"mythological figure"},{"id":"27","label":"zeus","ntl":"egyptian","tpl":"transcriber"},{"id":"28","label":"morpheus","ntl":"helenistic","tpl":"transcriber"},{"id":"29","label":"apollo","ntl":"persian","tpl":"transcriber"},{"id":"30","label":"adonis","ntl":"unknown","tpl":"mythological figure"},{"id":"31","label":"hephaestus","ntl":"egyptian","tpl":"bard"},{"id":"32","label":"morpheus","ntl":"barbarian","tpl":"demi god"},{"id":"33","label":"eros","ntl":"unknown","tpl":"author"},{"id":"34","label":"plutus","ntl":"egyptian","tpl":"transcriber"},{"id":"35","label":"hypnos","ntl":"helenistic","tpl":"god"},{"id":"36","label":"uranus","ntl":"persian","tpl":"demi god"},{"id":"37","label":"hephaestus","ntl":"persian","tpl":"mythological figure"},{"id":"38","label":"asclepius","ntl":"egyptian","tpl":"transcriber"},{"id":"39","label":"prometheus","ntl":"barbarian","tpl":"demi god"},{"id":"40","label":"plutus","ntl":"unknown","tpl":"god"},{"id":"41","label":"arisaeus","ntl":"unknown","tpl":"mythological figure"},{"id":"42","label":"hades","ntl":"persian","tpl":"transcriber"},{"id":"43","label":"momus","ntl":"helenistic","tpl":"demi god"},{"id":"44","label":"hypnos","ntl":"egyptian","tpl":"transcriber"},{"id":"45","label":"cronus","ntl":"persian","tpl":"mythological figure"},{"id":"46","label":"asclepius","ntl":"persian","tpl":"bard"},{"id":"47","label":"hephaestus","ntl":"unknown","tpl":"bard"},{"id":"48","label":"priapus","ntl":"helenistic","tpl":"author"},]}
+
+
+
+
+
+  create_spaghetti(data, "precise")
+
+
+
+
+  </script>
+  <!-- other scripts -->
+
+<script>
+  // JSOC injection caller
+    $("#share").jsSocials({
+        shares: ["email", "twitter", "facebook", "googleplus"]
+    });
+</script>
+
+</body>

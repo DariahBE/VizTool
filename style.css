@@ -1,0 +1,75 @@
+body,html{
+  width: 100%;
+  margin: 0px;
+  padding: 0px;
+  height: 100%
+}
+  #graph-container {
+    margin-left: 15%;
+    width:70%;
+    height: 100%;
+    position: fixed;
+  }
+
+#blackboard{
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+}
+
+
+#viserion {
+  z-index: 2;
+  position: static;
+  float: right;
+  border: 2px;
+  width: 100%;
+  height: 150px;
+  top:100vh;
+  margin-top: -150px;
+  background-color: red;
+}
+
+#detail-container {
+  float: left;
+  width: 15%;
+  background-color: grey;
+  height: 100%;
+}
+
+#interaction {
+  float: right;
+  width: 15%;
+  background-color: yellow;
+  height: 100%;
+  top:0;
+  position: static;
+}
+
+.img-top {
+  width: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+.txt {
+  height: 75%;
+}
+/*swap between #holdinjected and #default-txt with javascript */
+#holdinjected {
+  visibility: hidden;
+}
+
+#default-txt {
+  height: 70%;
+}
+
+#filterholder{
+  border: 2px solid red;
+}
+
+.footer {
+  height: 10%;
+  bottom: 0;
+}
