@@ -1,5 +1,5 @@
 # Sigma.js Drop-in tool
-Shared under MIT-license,
+Shared under GNU-license,
 developed at the KULeuven for DARIAH-BE
 
 **NOTICE**: draft version
