@@ -1,10 +1,8 @@
 function create_spaghetti(graph, mode) {
 // end-user programming required.
-  //TEMPORARY SHIT
-var months = ["january", "february", "march", "april", "may", "june"];
 
-  // Assignig colors to type
-function determincolor(type){
+  // Assigning colors to type
+function determinecolor(type){
   if (type==="author"){return "rgba(97,125,180,0.4)";}
   else if (type==="mythological figure"){return "rgba(102,143,60,0.4)";}
   else if (type==="transcriber"){return "rgba(0, 255, 0, 0.4)";}
@@ -21,35 +19,49 @@ var edgecol = "rgba(30,78,87,0.2)";     // if you set edgecol_is_nodecol = false
   // Filter ignorelist.
 var ignorelist = ["id", "x", "y", "size", "color", "label"];
 
-  // Filename Export        Chagne this to alter the name of exported files.
+// link graphboard to left side information panel. (This will link clickevents between the two information panel and graph visualization.)
+var link_board = true;              // true or false
+
+  // Hides these attributes from the nodes in the onclick event:
+var node_ignore = ["x", "y", "size", "color", "id", "hidden", "read_cam0:size", "read_cam0:x", "read_cam0:y", "renderer1:x", "renderer1:y", "renderer1:size", "dn_x", "dn_y", "dn_size", "dn", "fr_x", "fr_y", "fr"];
+
+  // hides these attributes form the edges in the onclick event:
+      // NOTICE ==> source and target are not used directly; they are replaced by the correlating node-labels
+var edge_ignore = ["color", "size", "id", "type", "hidden", "read_cam0:size", "renderer1:size", "source", "target"];
+
+  // Filename Export        Change this to alter the name of exported files.
 var filename = "Trismegistos-Graph-Export";
+var svg_size = 1920;
+
+//This value will disable certain elements if there are more than x-nodes in your graph. This is useful to prevent
+//visitors from applying algorithms that are not suitable for large networks.
+var max_interactive_density = 750;      // Integer value
 
   //Positioning of nodes.
-var positions_are_known = false;        // use true or false
-var use_as_x = "your_x_coordinate";      // in your data, what value is used to denote the X-position of a node?
-var use_as_y = "your_y_coordinate";      // in your data, what value is used to denote the X-position of a node?
+var positions_are_known = false;         // use true or false
+var use_as_x = "your_x_coordinate";      // in your data, what key is used to denote the X-position of a node? (string)
+var use_as_y = "your_y_coordinate";      // in your data, what key is used to denote the Y-position of a node? (string)
 
-
-  //This value will disable certain elements if there are more than x-nodes in your graph. This is usefull to prevent
-  //visitors from applying alhoritms that are not suitable for large networks.
-var max_interactive_density = 750;      // Integer value
+  //Do you have a fixed size in your argument for each node? If set to true, the program shall not overwrite this size.
+var fixedsize = false;              // use true or false.
+var nameforsize = "your_size_key";             // In your data, what key is used to denote the size of a node? (string)
 
 
 // Leave code below as is.
 
   //Filling Blackboard div.
-document.getElementById("blackboard").innerHTML = '<div id="detail-container"> <div class="static"> <img src="https://kuleuvencongres.be/eusea/images/kuleuven-logo-2012.png/image" alt="KUL" class="img-top"> <img src="http://be.dariah.eu/sites/all/themes/dariah_be/logo.png" alt="Dariah-BE" class="img-top"> <p>Powered by: <a href="http://sigmajs.org/" target="_blank">sigma.js</a> </p> </div> <div class="txt"> <div id="holdinjected"> </div> <div id="default-txt"> <p id="default-msg">For more details on a given node, click it. Details appear here. </p> </div> </div> </div> <div id="graph-container"></div> <div id="interaction"> <div class="controllers"> <div id="accordion"> <h4>Force Atlas 2 Layout</h4><div><div class="FA_Options"><div id="scale_holder"><div class="display_unit"> <label for="scaling" title="ScalingRatio expands the graph, making it more sparse."><div>ScalingRatio: <input type="text" id="scaling" readonly style="border:0; background:none;"></div></label></div><div id="scaling_ratio" class="slider"></div></div><br><div id="gravity_holder"><div class="display_unit"><label for="gravity" title="Gravity attracts nodes to the center which prevents drifting nodes."><div>Gravity: <input type="text" id="gravity" readonly style="border:0; background:none;"></div></label></div><div id="gravity_factor" class="slider"></div></div><br><div id="slowdown_holder"><div class="display_unit"><label for="slowdown" title="Slowing down makes the nodes less prone to the repulsive forces from neighboring nodes. A higher value results in more stable nodes."><div>Slowdown: <input type="text" id="slowdown" readonly style="border:0; background:none;"></div></label></div><div id="slowdown_factor" class="slider"></div></div><br><div><label title="Makes the rendered clusters more tight by switching from lin-lin to lin-log(Andreas Noack).">LinLogmode:</label><div class="onoffswitch"><input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="linlogswitch"><label class="onoffswitch-label" for="linlogswitch"></label><span class="onoffswitch-inner"></span><span class="onoffswitch-switch"></span></div><br><label title="Forces a compact graph by attracting distant nodes, this force can be too strong and thus results in a biased placement.">StrongGravityMode:</label><div class="onoffswitch"><input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="heavy"><label class="onoffswitch-label" for="heavy"></label> <span class="onoffswitch-inner"></span><span class="onoffswitch-switch"></span></div><br></div></div><div class="FA_Controller"><input value="run forceatlas2" id="skywalker" type="button"><input value="stop forceatlas2" id="darth_vader" type="button"></div></div>  <h4>Fruchterman-Reingold Layout</h4><div><div class="FR_options"><div id="Fiterate_holder"><div class="display_unit"> <label for="iterator" title="How many times the algorithm is expected to run before rendering. WARNING: high values tend to be more precise, but are not suitable for large networks due to performance issues."><div>Iterations: <input type="text" id="iterator" readonly style="border:0; background:none;"></div></label></div><div id="iteration_ratio" class="slider"></div></div><br><div id="Fspeed_holder"><div class="display_unit"><label for ="F_speed" title="How fast the algorithms is expected to work. A higher value will give faster results at the cost of precision."><div>Speed: <input type="text" id="F_speed" readonly style="border:0; background:none;"></div></label></div><div id="speed_Fratio" class="slider"></div></div><br><div id="Fgrav_holder"><div class="display_unit"><label for ="F_gravity" title="This will attract all nodes to the center to avoid dispersion of unconnected nodes."><div>Gravity: <input type="text" id="F_gravity" readonly style="border:0; background:none;"></div></label></div><div id="gravity_Fratio" class="slider"></div></div><br></div><div id="FR_controller"></div></div></div><!-- hods the javascript buttons. --> <!-- no code here --> </div> <div id="filterholder"> <!-- no code here --> </div> <!--  <div id=viserion></div> --> <div class="footer"> <p>If Trismegistos helped you, share and <a href="http://www.trismegistos.org/about_how_to_cite" target="_blank">cite</a> us.</p> <div id="share"></div> <!-- JSOC Injection --> </div></div>';
+document.getElementById("blackboard").innerHTML = '<div id="detail-container"> <div class="side_panels_content"> <div class="static"> <a href="https://www.kuleuven.be/kuleuven/" target="_blank"><img src="https://kuleuvencongres.be/eusea/images/kuleuven-logo-2012.png/image" alt="KUL" class="img-top"></a><a href="http://be.dariah.eu/" target="_blank"><img src="http://be.dariah.eu/sites/all/themes/dariah_be/logo.png" alt="Dariah-BE" class="img-top"></a> <p>Powered by: <a href="http://sigmajs.org/" target="_blank">sigma.js</a> </p> </div> <div class="txt"> <div id="holdinjected"> </div> <div id="default-txt"> <p id="default-msg">For more details on a given node, click it. Details appear here. </p></div></div></div></div><div id="graph-container"></div> <div id="interaction"> <div class="side_panels_content"> <div id="zoomcontrol"></div> <div class="controllers"> <div id="accordion"> <h4>Force Atlas 2 Layout <div id="snitch" title="This indicator shows you if ForceAtlas is still running. Red means that it\'s been stopped, green means that it\'s running. ForceAtlas is a continious layout algorithm and needs to be stopped explicitly"></div></h4><div><div class="FA_Options"><div id="scale_holder"><div class="display_unit"> <label for="scaling" title="ScalingRatio expands the graph, making it more sparse."><div>ScalingRatio: <input type="text" id="scaling" readonly style="border:0; background:none;"></div></label></div><div id="scaling_ratio" class="slider"></div></div><br><div id="gravity_holder"><div class="display_unit"><label for="gravity" title="Gravity attracts nodes to the center which prevents drifting nodes."><div>Gravity: <input type="text" id="gravity" readonly style="border:0; background:none;"></div></label></div><div id="gravity_factor" class="slider"></div></div><br><div id="slowdown_holder"><div class="display_unit"><label for="slowdown" title="Slowing down makes the nodes less prone to the repulsive forces from neighboring nodes. A higher value results in more stable nodes."><div>Slowdown: <input type="text" id="slowdown" readonly style="border:0; background:none;"></div></label></div><div id="slowdown_factor" class="slider"></div></div><br><div><label title="Makes the rendered clusters more tight by switching from lin-lin to lin-log(Andreas Noack). This is not recommended for small graphs.">LinLogmode:</label><div class="onoffswitch"><input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="linlogswitch"><label class="onoffswitch-label" for="linlogswitch"></label><span class="onoffswitch-inner"></span><span class="onoffswitch-switch"></span></div><br><label title="Forces a compact graph by attracting distant nodes, this force can be too strong and thus results in a biased placement.">StrongGravityMode:</label><div class="onoffswitch"><input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="heavy"><label class="onoffswitch-label" for="heavy"></label> <span class="onoffswitch-inner"></span><span class="onoffswitch-switch"></span></div><br></div></div><div class="FA_Controller"><input value="run forceatlas2" id="skywalker" type="button"><input value="stop forceatlas2" id="darth_vader" type="button"></div></div>  <h4>Fruchterman-Reingold Layout</h4><div><div class="FR_options"><div id="Fiterate_holder"><div class="display_unit"> <label for="iterator" title="How many times the algorithm is expected to run before rendering. WARNING: high values tend to be more precise, but are not suitable for large networks due to performance issues."><div>Iterations: <input type="text" id="iterator" readonly style="border:0; background:none;"></div></label></div><div id="iteration_ratio" class="slider"></div></div><br><div id="Fspeed_holder"><div class="display_unit"><label for ="F_speed" title="How fast the algorithms is expected to work. A higher value will give faster results at the cost of precision."><div>Speed: <input type="text" id="F_speed" readonly style="border:0; background:none;"></div></label></div><div id="speed_Fratio" class="slider"></div></div><br><div id="Fgrav_holder"><div class="display_unit"><label for ="F_gravity" title="This will attract all nodes to the center to avoid dispersion of unconnected nodes."><div>Gravity: <input type="text" id="F_gravity" readonly style="border:0; background:none;"></div></label></div><div id="gravity_Fratio" class="slider"></div></div><br></div><div id="FR_controller"></div></div></div><!-- hods the javascript buttons. --> <!-- no code here --> </div> <div id="filterholder"> <!-- no code here --> </div> <!--  <div id=viserion></div> --> <div class="footer"> <p>If Trismegistos helped you, share and <a href="http://www.trismegistos.org/about_how_to_cite" target="_blank">cite</a> us.</p> <div id="share"></div> <!-- JSOC Injection --> </div></div></div>';
 
   //end of filling blackboard.
   // JQUERY UI SLiders and accordion
-  $( function() {
-  $( "#accordion" ).accordion({
+  $(function() {
+  $("#accordion").accordion({
     collapsible: true,
-  active: false
+    active: false
   });
 } );
 
-  $( function() {
+  $(function() {
     // Force Atlas sliders & buttons.
     $("#scaling_ratio").slider({
       range: "min",
@@ -57,10 +69,10 @@ document.getElementById("blackboard").innerHTML = '<div id="detail-container"> <
       min: 0.1,
       max: 5.0,
       step: 0.1,
-      slide: function( event, ui ) {
+      slide: function(event, ui) {
         $("#scaling").val(ui.value );
       },
-      stop: function( event, ui ) {
+      stop: function(event, ui) {
         the_empire_strikes_back();
       }
     });
@@ -72,10 +84,10 @@ document.getElementById("blackboard").innerHTML = '<div id="detail-container"> <
       min: 0.0,
       max: 10.0,
       step: 0.1,
-      slide: function( event, ui ) {
+      slide: function(event, ui) {
         $("#gravity").val(ui.value );
       },
-      stop: function( event, ui ) {
+      stop: function(event, ui) {
         the_empire_strikes_back();
       }
     });
@@ -85,12 +97,12 @@ document.getElementById("blackboard").innerHTML = '<div id="detail-container"> <
       range: "min",
       value: 5.0,
       min: 0.1,
-      max: 100.0,
+      max: 25.0,
       step: 0.1,
-      slide: function( event, ui ) {
-        $("#slowdown").val(ui.value );
+      slide: function(event, ui) {
+        $("#slowdown").val(ui.value);
       },
-      stop: function( event, ui ) {
+      stop: function(event, ui) {
         the_empire_strikes_back();
       }
     });
@@ -106,8 +118,8 @@ document.getElementById("blackboard").innerHTML = '<div id="detail-container"> <
         min: 1,
         max: 200,
         step: 1,
-        slide: function( event, ui ) {
-        $("#iterator").val(ui.value );
+        slide: function(event, ui) {
+        $("#iterator").val(ui.value);
       },
         stop: function(event,ui){
           fruchterman_func();
@@ -162,7 +174,6 @@ document.getElementById("skywalker").onclick = function(){
 
 //ForceAtlas: Implicit builder (only active if use_the_force = true)
 function the_empire_strikes_back() {
-  console.log("The Death Star is ready.")
   if (use_the_force){
   yoda("stop_him_we_must");
 
@@ -203,10 +214,11 @@ noverlap.setAttribute("value", "run noverlap");
 noverlap.setAttribute("id", "shepherd");
 if (graph.nodes.length > max_interactive_density){
   noverlap.setAttribute("disabled", "disabled");
+  noverlap.setAttribute("title","Disabled due to too large network.");
 }
 document.getElementsByClassName("controllers")[0].appendChild(noverlap);
 document.getElementById("shepherd").onclick = function(){
-    mass_effect("launch")
+    mass_effect()
 };
 
 var savesvg = document.createElement("INPUT");
@@ -233,7 +245,7 @@ restore.setAttribute("value", "restore graph");
 restore.setAttribute("id", "restore");
 document.getElementsByClassName("controllers")[0].appendChild(restore);
 document.getElementById("restore").onclick = function(){
-  s.graph.nodes().forEach(function(node) {
+  s.graph.nodes().forEach(function(node){
     node.hidden = false;
     });
   s.graph.edges().forEach(function(edge){
@@ -250,7 +262,6 @@ document.getElementById("restore").onclick = function(){
 }
 
 // setting boundaries on node- and edgesize by total amount of nodes.
-
 var totalnodes = graph.nodes.length;
 var nodesize = 10;
 var edgesize = 8;
@@ -341,21 +352,26 @@ if(totalnodes > 20000){
       }
     }
   };
-
+function determinesize(i){
+  if (!fixedsize){
+    return 1;
+  } else {
+    return graph.nodes[i][nameforsize];
+  }
+}
+// Customize this code to push components from your data to g.nodes.
 for (var i = 0; i < graph.nodes.length; i++){
     var id = graph.nodes[i]["id"];
     var label = graph.nodes[i]["label"];
     var country = graph.nodes[i]["tpl"];
-    //var areat_t = graph.nodes[i]["older_x"];
-    //var code = graph.nodes[i]["size"];
     var nationality = graph.nodes[i]["ntl"];
     var typology = graph.nodes[i]["tpl"];
     var xpos = positioner("x",i);
     var ypos = positioner("y",i);
-    var size =  1;
-    var color = determincolor(typology);
+    var size =  determinesize(i);
+    var color = determinecolor(typology);        //this re-uses the typology variable to assign colors. You can use other variables as well.
     var xside = xside +1;
-    if (xside >= side){
+    if ((xside >= side) && (!positions_are_known)){
       xside = 1;
       yside = yside+1;
     }
@@ -364,7 +380,6 @@ for (var i = 0; i < graph.nodes.length; i++){
       label: label,
       nationality: nationality,
       typology: typology,
-      random: months[Math.floor(Math.random() * months.length)],
       x: xpos,
       y: ypos,
       size: size,                 // you can force this to use a 'null' value if needed,-; but then disable the sigma.plugins.relativeSize functionality later in the script
@@ -379,9 +394,10 @@ function edgecolor_assigner(state, alt){
     return alt;
   }
 };
-
+// Customize this code to push components from your data to g.edges.
 var edgescol = edgecolor_assigner(edgecol_is_nodecol,edgecol);
 for (var i = 0; i < graph.edges.length; i++){
+  // new variables go here.
   g.edges.push({
     id: graph.edges[i]["id"],
     source: graph.edges[i]["source"],
@@ -395,7 +411,6 @@ for (var i = 0; i < graph.edges.length; i++){
  This function takes the settings name  used in the sigma instances as input (i.e. variable_input)
  based on that and the mode that's been declared in the main function it returns values that are
  optimized for a specific graph.
- VOORSTEL: optie custom1/custom2??
 */
 
 function modevar(variable_input){
@@ -421,7 +436,7 @@ s = new sigma({
   graph: g,
   renderer: {
     container: document.getElementById("graph-container"),
-    type: "canvas"
+    type: "canvas",
   },
   settings: {
     edgeLabelSize: "fixed",     //fixed (default) or proportional (Performance killer) ==> Proportiional not needed because of s.plugins.relativeSize!
@@ -439,21 +454,20 @@ s = new sigma({
     batchEdgesDrawing: modevar("batchedges"), // default: false; true is perforamnce gain!
     hideEdgesOnMove: modevar("edgemove"),
     canvasEdgesBatchSize: 2000,
-    drawLabels:  modevar("drawlabels"),
+    drawLabels: modevar("drawlabels"),
     labelThreshold: nodesize*factor
   }
 });
 
 // forces relative size of nodes based on neighbours.
 
-
+if (!fixedsize){
 sigma.plugins.relativeSize(s,2); // (object, startSize)
+}
 s.refresh();
-
 
 // Enables Force Atlas on Request.
 function yoda(the_force, grav, scal, slow, linlog, heavy) {
-
   function optimizer(){
     if(graph.nodes.length>500){           // on smaller networks you do more harm than good with barnesHutOptimization.
       return true;
@@ -461,8 +475,8 @@ function yoda(the_force, grav, scal, slow, linlog, heavy) {
       return false;
     }
   };
-//s.startForceAtlas2({worker: true, barnesHutOptimize: false/*, linLogMode:false, outboundAttractionDistribution:true, adjustSize:true, edgeWeightInfluences:1, barnesHutTheta:1*/});
 if (the_force === "strong_in_this_one"){
+  document.getElementById("snitch").style.backgroundColor="green";
   var fa_options = {
     worker: true,
     barnesHutOptimize: optimizer(),
@@ -475,10 +489,11 @@ if (the_force === "strong_in_this_one"){
     strongGravityMode:heavy,
     outboundAttractionDistribution:true,
     adjustSize:true,
-    edgeWeightInfluence:2,          //Ask Yanne.
+    edgeWeightInfluence:2,
     barnesHutTheta:1}
   s.startForceAtlas2(fa_options);
 }else{
+    document.getElementById("snitch").style.backgroundColor="red";
   s.killForceAtlas2();
 }
 };
@@ -489,7 +504,6 @@ function fruchterman_func(){
     var fgrav = $("#gravity_Fratio").slider("option", "value");
     var fspeed = $("#speed_Fratio").slider("option", "value");
     var fiter = $("#iteration_ratio").slider("option", "value");
-
     var fruchtermanconfig = {
       autoArea: true,
       easing: true,
@@ -502,7 +516,7 @@ function fruchterman_func(){
     }
   };
 
-function mass_effect(andromeda) {
+function mass_effect() {
   var config = {
     nodeMargin: 3.0,
     scaleNodes: 2,
@@ -511,21 +525,188 @@ function mass_effect(andromeda) {
     maxIterations: 5,
     speed: 30
   };
-  if (andromeda ==="launch"){
-    s.startNoverlap(config);
-  }
+  s.startNoverlap(config);
 }
 
+// Show relations based on in and outbound data.
+function showrelation(edgeid){
+  for (var ed = 0; ed <data.edges.length; ed++){
+    if(g.edges[ed].id === edgeid){
+      document.getElementById("holdinjected").innerHTML = "";     // emptying div
+      document.getElementById("holdinjected").innerHTML = "<h2>Edge info</h2>";
+      var edge_src = g.edges[ed].source;
+      var edge_trg = g.edges[ed].target;
+      var edge_src_label = lookup_id(edge_src);
+      var edge_trg_label = lookup_id(edge_trg);
+      var inject_edge_data_only = "<p>Source: <span id='"+edge_src+"' class='hotlink_node'>"+edge_src_label+"</span></p><p>Target: <span id='"+edge_trg+"' class='hotlink_node'>"+edge_trg_label+"</span></p>";
+      var object_keys_edge = Object.keys(g.edges[ed]);
+      for (var ek = 0; ek <object_keys_edge.length; ek++){
+        if(edge_ignore.indexOf(object_keys_edge[ek])<0){
+          inject_edge_data_only += "<p>"+object_keys_edge[ek]+": "+g.edges[ed][object_keys_edge[ek]]+"</p>";
+        }
+      };
+      document.getElementById("holdinjected").innerHTML +=inject_edge_data_only;
+      break
+    }
+  }
+};
+function shownode(nodeid, source){
+  for (var n=0; n<g.nodes.length; n++){
+    if (g.nodes[n].id === nodeid){
+      var inject_node_data = "<h2>Node info</h2>";
+      var outboundrelations = "";
+      var inboundrelations = "";
+      var object_keys_node = Object.keys(g.nodes[n]);
+      for (var nk = 0; nk <object_keys_node.length; nk++){
+        if (node_ignore.indexOf(object_keys_node[nk])<0){
+          inject_node_data += "<p>"+object_keys_node[nk]+": "+g.nodes[n][object_keys_node[nk]]+"</p>";
+        }
+      };
+      var outtargets = [];
+      var intargets = [];
+      var temparr=[];
+          // detecting outbound relations.
+      for (var outrel = 0; outrel <g.edges.length; outrel ++){
+        if ( g.edges[outrel].source === nodeid){
+          temparr.push(g.edges[outrel].target);
+          temparr.push(g.edges[outrel].id);
+          outtargets.push(temparr);}
+          temparr=[];
+      };
+      for (var inrel = 0; inrel <g.edges.length; inrel ++){
+        if ( g.edges[inrel].target === nodeid){
+          temparr.push(g.edges[inrel].source);
+          temparr.push(g.edges[inrel].id);
+          intargets.push(temparr)};
+          temparr = [];
+          }
+      if (link_board &&(source != "graph")){
+        s.graph.nodes().forEach(function(n){
+          n.hidden=true;
+        })
+        s.graph.edges().forEach(function(p){
+          if ((p.target===nodeid) || (p.source===nodeid)){
+            p.hidden=false;
+            s.graph.nodes(p.target).hidden=false;
+            s.graph.nodes(p.source).hidden=false;
+          }else{
+            p.hidden=true;
+          }});
+        s.refresh();
+      };
+      // assigning names(label) to outbound relations.
+   for (var otrg = 0; otrg <outtargets.length; otrg++){
+     s.graph.nodes().forEach(function(n){
+       if(n.id === outtargets[otrg][0]){
+         outboundrelations = outboundrelations + "<p>"+n.label+". <span class='hotlink_edge' id='"+outtargets[otrg][1]+"' title='click for more information on this relationship'>E?</span> / <span class='hotlink_node' id='"+n.id+"'title='click for more information on this node'>N?</span> </p>";
+       }
+     })
+   };
+
+   for (var intrg = 0; intrg <intargets.length; intrg++){
+     s.graph.nodes().forEach(function(n){
+       if(n.id === intargets[intrg][0]){
+         inboundrelations = inboundrelations + "<p>"+n.label+". <span class='hotlink_edge' id='"+intargets[intrg][1]+"' title='click for more information on this relationship'>E?</span> / <span class='hotlink_node' id='"+n.id+"' title='click for more information on this node'>N?</span> </p>";
+       }
+     })
+   };
+   document.getElementById("holdinjected").innerHTML=inject_node_data + "<h3>Outgoing relations: "+outtargets.length+"</h3>"+ outboundrelations + "<h3>Incoming relations: "+intargets.length+"</h3>"+ inboundrelations;
+   document.getElementById("default-txt").style.visibility = "hidden";
+   document.getElementById("holdinjected").style.visibility = "visible";
+      break
+    }
+  }
+
+};
 
 // custom code (show node information)
 s.bind("clickNode", function (e) {
-  document.getElementById("holdinjected").innerHTML = "<h2>Node info</h2> <p>Nationality: "+ e.data.node.nationality + "</p> <p>Name: "+e.data.node.label+"</p> <p>Type: "+e.data.node.typology+"</p><p>random: "+e.data.node.random+"</p>+<p>ID: "+e.data.node.id+"</p>";
+  var inject_node_data = "<h2>Node info</h2>";
+  var outboundrelations = "";
+  var inboundrelations = "";
+  var ego = e.data.node.id;
+  var object_keys_node = Object.keys(e.data.node);
+  for (var nk = 0; nk <object_keys_node.length; nk++){
+    if (node_ignore.indexOf(object_keys_node[nk])<0){
+      inject_node_data += "<p>"+object_keys_node[nk]+": "+e.data.node[object_keys_node[nk]]+"</p>";
+    }
+  };
+  var outtargets = [];
+  var intargets = [];
+  var temparr=[];
+      // detecting outbound relations.
+  for (var outrel = 0; outrel <graph.edges.length; outrel ++){
+    if ( graph.edges[outrel].source === ego){
+      temparr.push(graph.edges[outrel].target);
+      temparr.push(graph.edges[outrel].id);
+      outtargets.push(temparr);}
+      temparr=[];
+  };
+      // detecting incoming relations.
+  for (var inrel = 0; inrel <graph.edges.length; inrel ++){
+    if ( graph.edges[inrel].target === ego){
+      temparr.push(graph.edges[inrel].source);
+      temparr.push(graph.edges[inrel].id);
+      intargets.push(temparr)};
+      temparr = [];
+  };
+     // assigning names(label) to outbound relations.
+  for (var otrg = 0; otrg <outtargets.length; otrg++){
+    s.graph.nodes().forEach(function(n){
+      if(n.id === outtargets[otrg][0]){
+        outboundrelations = outboundrelations + "<p>"+n.label+". <span class='hotlink_edge' id='"+outtargets[otrg][1]+"' title='click for more information on this relationship'>E?</span> / <span class='hotlink_node' id='"+n.id+"'title='click for more information on this node'>N?</span> </p>";
+      }
+    })
+  };
+
+  for (var intrg = 0; intrg <intargets.length; intrg++){
+    s.graph.nodes().forEach(function(n){
+      if(n.id === intargets[intrg][0]){
+        inboundrelations = inboundrelations + "<p>"+n.label+". <span class='hotlink_edge' id='"+intargets[intrg][1]+"' title='click for more information on this relationship'>E?</span> / <span class='hotlink_node' id='"+n.id+"' title='click for more information on this node'>N?</span> </p>";
+      }
+    })
+  };
+  document.getElementById("holdinjected").innerHTML=inject_node_data + "<h3>Outgoing relations: "+outtargets.length+"</h3>"+ outboundrelations + "<h3>Incoming relations: "+intargets.length+"</h3>"+ inboundrelations;
   document.getElementById("default-txt").style.visibility = "hidden";
   document.getElementById("holdinjected").style.visibility = "visible";
 });
+
+var send_id = 0;
+$(document).on("click", ".hotlink_edge", function(){
+  send_id = this.getAttribute("id")
+  showrelation(send_id);
+});
+
+$(document).on("click", ".hotlink_node", function(){
+  send_id = this.getAttribute("id")
+  shownode(send_id);
+});
 // custom edgeclick
+
+function lookup_id(value){
+  for (var lookup = 0; lookup < graph.nodes.length; lookup++){
+    if (graph.nodes[lookup].id === value){
+      return(graph.nodes[lookup].label);
+    }
+  }
+};
+
 s.bind("clickEdge", function(e) {
-  document.getElementById("holdinjected").innerHTML = "<h2>Edge info</h2> <p>Departure: <a href ='https://www.google.be/search?q="+e.data.edge.source+"' target='_blank'>"+ e.data.edge.source + "</a></p> <p>Destination: "+ e.data.edge.target +"</p> <p>Distance: "+e.data.edge.distance+"</p><p>Airline: "+e.data.edge.airlines+"</p><p>Fare: "+e.data.edge.fare+"</p>";
+  // numerical values for source and target are replaced by the node labels!
+  // If the numerical values are URI's, then you can use them to make a hyperlink to that unique page, using the label as clickable text.
+  var inject_edge_data = "<h2>Edge info</h2> ";
+  var object_keys_edge = Object.keys(e.data.edge);
+  var edge_src = e.data.edge.source;
+  var edge_trg = e.data.edge.target;
+  var edge_src_label = lookup_id(edge_src);
+  var edge_trg_label = lookup_id(edge_trg);
+  inject_edge_data += "<p>Source: <span id='"+edge_src+"' class='hotlink_node'>"+edge_src_label+"</span></p><p>Target: <span id='"+edge_trg+"' class='hotlink_node'>"+edge_trg_label+"</span></p>";
+  for (var ek = 0; ek <object_keys_edge.length; ek++){
+    if(edge_ignore.indexOf(object_keys_edge[ek])<0){
+      inject_edge_data += "<p>"+object_keys_edge[ek]+": "+e.data.edge[object_keys_edge[ek]]+"</p>";
+    }
+  };
+  document.getElementById("holdinjected").innerHTML = inject_edge_data;
   document.getElementById("default-txt").style.visibility = "hidden";
   document.getElementById("holdinjected").style.visibility = "visible";
 })
@@ -536,11 +717,18 @@ s.bind("clickStage", function(){
   document.getElementById("holdinjected").innerHTML = "";     // emptying div
 })
 
-// custom rightclick = isolate network.
+// custom righclickstage
+s.bind("rightClickStage", function(){
+  filter.undo();
+  filter.apply();
+})
+
+
+// custom rightclick = create ego network.
 s.bind("rightClickNode", function(e){
   // fixes the contextmenu display when you click with the right button on a node
   if (document.addEventListener) {
-    document.addEventListener("contextmenu", function(e) {
+    document.getElementById("graph-container").addEventListener("contextmenu", function(e) {
         e.preventDefault();
     }, false);
 } else {
@@ -551,6 +739,9 @@ s.bind("rightClickNode", function(e){
   // end of contextmenu fix.
 
   var center = e.data.node.id;
+  if (link_board){
+    shownode(center, "graph");
+  }
   s.graph.nodes().forEach(function(n){
     n.hidden=true;
   })
@@ -568,7 +759,7 @@ s.bind("rightClickNode", function(e){
 
 // save as svg.
 document.getElementById("export").onclick = function() {
-  var trismegistos_graph_svg_export = s.toSVG({download: true, filename: filename+".svg", size: 1920});
+  var trismegistos_graph_svg_export = s.toSVG({download: true, filename: filename+".svg", size: svg_size});
 };
 
 //save as JPG
@@ -604,7 +795,6 @@ var filter = new sigma.plugins.filter(s);
     }
   }
 
-
 // Returns unique filtering options.
   function singularity(input){
     var single = [];
@@ -616,11 +806,11 @@ var filter = new sigma.plugins.filter(s);
     return single;
 };
 
-  for (attribute in attributenames){
-    s.graph.nodes().forEach(function(node) {
-      attributenames[attribute].push(node[attribute]);
-    });
-      attributenames[attribute]= singularity(attributenames[attribute]);
+for (attribute in attributenames){
+  s.graph.nodes().forEach(function(node) {
+    attributenames[attribute].push(node[attribute]);
+  });
+  attributenames[attribute]= singularity(attributenames[attribute]);
 }
 
 var filterbox = document.createElement("div");
@@ -629,6 +819,7 @@ document.getElementById("interaction").appendChild(filterbox);
 document.getElementById("filterholder").innerHTML+="Operator: ";
 var operator = document.createElement("SELECT");
 operator.setAttribute("id","ddoperator");
+operator.setAttribute("title","Select the operator first, this operator applies to the chose attributevalue.");
 document.getElementById("filterholder").appendChild(operator);
 
 var operatorlist = [["OR","or"], ["NOT","not"]];
@@ -644,6 +835,7 @@ for (key in attributenames){
   var option = document.createElement("SELECT");
   option.setAttribute("id","node-filter-"+key);
   option.setAttribute("class","filtermain");
+  option.setAttribute("title", "Click an option to apply the operator to, the selected option for '"+key+"' gets pushed as a filter when it is clicked");
   document.getElementById("filterholder").innerHTML+="<br><span>"+key+": </span>";
   document.getElementById("filterholder").appendChild(option);
   var defaulter = document.createElement("OPTION");
@@ -663,18 +855,13 @@ for (key in attributenames){
   }
 }
 
-
 function runfilter(specsheet){
   filter.undo();
-  console.clear() //clears shit from console; remove from final version and kill logs!!!!
   var orstring = "";
   var notstring = "";
   for(key in specsheet){
-    console.log("key in spec: "+ key);
     for(conditional in specsheet[key]){
-      console.log("conditional in spec[key]: "+ conditional);
       if (conditional === "not"){
-        console.log("Running NOTS");
         var notstring = notstring +" && n['"+key+"']!==";
         var notstring = notstring + specsheet[key][conditional].join(" && n['"+key+"'] !== ");
         if(notstring[1]==="&"){
@@ -682,12 +869,9 @@ function runfilter(specsheet){
           filter.nodesBy(function(n){
             return eval(notstring);
           })
-          filter.apply()
-        console.log(notstring);
+          filter.apply();
       }
-
       if (conditional ==="or"){
-        console.log("Running ORS");
         var orstring = orstring + " && n['"+key+"']===";
         var orstring = orstring + specsheet[key][conditional].join(" || n['"+key+"'] === ");
         if(orstring[1]==="&"){
@@ -697,12 +881,10 @@ function runfilter(specsheet){
             return eval(orstring);
           })
           filter.apply()
-        console.log(orstring);
       }
     };
   }
 };
-
 
 var filteroptions = {};
 function preparefilter(param){
@@ -721,7 +903,6 @@ function preparefilter(param){
   }
   runfilter(filteroptions);
 };
-
 
 var selectors = document.getElementsByClassName("attributeoption");
 var a = selectors.length;
@@ -743,7 +924,42 @@ while (a--){
 }
 //end of filtering
 
+//Feature request: Zoom in/reset/out: 8/12/17
+var factor = 1.25;
+var maxin = 0.3;
+var maxout = 3;
+
+var lens = s.cameras[0];
+var zoomin = '<button id="zoomin"><i class="fa fa-search-plus zoomicon"></i></button>';        // DO NOT USE .fas AS RECOMMENDED BY FA5.0B!!
+var zoomout = '<button id="zoomout"><i class="fa fa-search-minus zoomicon"></i></button>';
+var zoomreset = '<button id="zoomzero"><i class="fa fa-search zoomicon"></i></button>';
+document.getElementById("zoomcontrol").innerHTML = "<span>"+zoomin+zoomreset+zoomout+"</span>";
+
+document.getElementById("zoomin").addEventListener("click",function(){
+  if (lens.ratio > maxin){
+    lens.ratio = lens.ratio/factor;
+    s.refresh();
+  }
+})
+
+document.getElementById("zoomout").addEventListener("click",function(){
+  if (lens.ratio < maxout){
+    lens.ratio = lens.ratio*factor;
+    s.refresh();
+  }
+});
+
+document.getElementById("zoomzero").addEventListener("click",function(){
+  if ((lens.x!==0)||(lens.y!==0)||(lens.ratio!==1)){
+    lens.x = 0;
+    lens.y = 0;
+    lens.ratio = 1;
+    s.refresh();
+  }
+});
+
+
 // Enable drag functionality.
 sigma.plugins.dragNodes(s, s.renderers[0]);
 s.refresh();
-}
+};
