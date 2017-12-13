@@ -2,53 +2,68 @@ body,html{
   width: 100%;
   margin: 0px;
   padding: 0px;
-  height: 100%
+  height: 100%;
+  background-color: #C2C2C2;
 }
-  #graph-container {
-    margin-left: 15%;
-    width:70%;
-    height: 100%;
-    position: fixed;
-  }
+
+
+#graph-container {
+  margin-left: 15%;
+  width:70%;
+  height: 100%;
+  position: fixed;
+}
 
 #blackboard{
   height: 100%;
   margin: 0;
   padding: 0;
-  overflow: hidden;
-}
-
-
-#viserion {
-  z-index: 2;
-  position: static;
-  float: right;
-  border: 2px;
-  width: 100%;
-  height: 150px;
-  top:100vh;
-  margin-top: -150px;
-  background-color: red;
+  overflow-x: hidden;
 }
 
 #detail-container {
   float: left;
   width: 15%;
-  background-color: grey;
-  height: 100%;
+  background-color: #B1B1B1;
+  min-height: 100%;
+  border-top-right-radius: 5px;
+  border-bottom-right-radius: 5px;
 }
 
 #interaction {
   float: right;
   width: 15%;
-  background-color: yellow;
-  height: 100%;
-  top:0;
-  position: static;
+  background-color: #B1B1B1;
+  min-height: 100%;
+  margin-left: 85%;
+  position: absolute;
+  border-top-left-radius: 5px;
+  border-bottom-left-radius: 5px;
+  overflow: hidden;
+}
+
+.side_panels_content{
+  width: 95%;
+  margin: 0 auto;
+  padding-top: 10px;
+}
+
+#share{
+  font-size: 80%;
+}
+
+#snitch{
+  margin-top: 2px;
+  margin-right: 2px;
+  float: right;
+  width: 10px;
+  height: 10px;
+  border-radius: 5px;
+  background-color: red;
 }
 
 .img-top {
-  width: 100%;
+  width: 49%;
   margin: 0;
   padding: 0;
 }
@@ -66,10 +81,101 @@ body,html{
 }
 
 #filterholder{
-  border: 2px solid red;
+  border: 2px solid #00407A;
+  padding: 2px;
+  border-radius: 5px;
 }
 
 .footer {
   height: 10%;
   bottom: 0;
+}
+
+.slider{
+	margin-top: 5px;
+}
+
+.onoffswitch {
+    position: relative; width: 55px;
+    -webkit-user-select:none; -moz-user-select:none; -ms-user-select: none;
+}
+.onoffswitch-checkbox {
+    display: none;
+}
+.onoffswitch-label {
+    display: block; overflow: hidden; cursor: pointer;
+    height: 20px; padding: 0; line-height: 20px;
+    border: 0px solid #FFFFFF; border-radius: 20px;
+    background-color: #9E9E9E;
+}
+.onoffswitch-label:before {
+    content: "";
+    display: block; width: 20px; margin: 0px;
+    background: #FFFFFF;
+    position: absolute; top: 0; bottom: 0;
+    right: 31px;
+    border-radius: 20px;
+    box-shadow: 0 6px 12px 0px #757575;
+}
+.onoffswitch-checkbox:checked + .onoffswitch-label {
+    background-color: #7AFFBA;
+}
+.onoffswitch-checkbox:checked + .onoffswitch-label, .onoffswitch-checkbox:checked + .onoffswitch-label:before {
+   border-color: #7AFFBA;
+}
+.onoffswitch-checkbox:checked + .onoffswitch-label .onoffswitch-inner {
+    margin-left: 0;
+}
+.onoffswitch-checkbox:checked + .onoffswitch-label:before {
+    right: 0px;
+    background-color: #2396F5;
+    box-shadow: 3px 6px 18px 0px rgba(0, 0, 0, 0.2);
+}
+
+#accordion .ui-accordion-header, #accordion .ui-accordion-content {
+   padding: 0;
+   background: none;
+   border: none;
+   outline: none;
+   width: 100%;
+   margin: 0 auto;
+   font-size: 70%;
+   overflow-x: hidden;
+}
+
+#accordion .ui-accordion-header{
+  border: 2px;
+  border-style: solid;
+  border-color: #00407A;
+}
+
+#accordion .ui-icon{display:none;}
+
+label:not(.onoffswitch-label):hover{
+	cursor: help;
+}
+
+.hotlink_edge, .hotlink_node{
+  cursor: help;
+  text-decoration: underline;
+}
+
+
+.display_unit{
+	list-style: none;
+  margin: 0;
+  padding: 0;
+  white-space: nowrap;
+  overflow-x: hidden;
+  overflow-y: hidden;
+}
+
+.display_unit > li {
+  display: inline-block;
+  height: 100%;
+  background-color: #00407A;
+}
+
+.display_unit > li:nth-child(even) {
+  background-color: blue;
 }
