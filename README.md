@@ -47,37 +47,45 @@ Data can be fed to the applet by PHP or HTML.
 
 ```HTML
 
-	<script src="plugins/sigma.layout.forceAtlas2/worker.js"></script>
-    <script src="plugins/sigma.layout.forceAtlas2/supervisor.js"></script>
-    <script src="plugins/sigma.renderers.edgeLabels/settings.js"></script>
-    <script src="plugins/sigma.renderers.edgeLabels/sigma.canvas.edges.labels.curve.js"></script>
-    <script src="plugins/sigma.renderers.edgeLabels/sigma.canvas.edges.labels.def.js"></script>
-    <script src="plugins/sigma.renderers.edgeLabels/sigma.canvas.edges.labels.curvedArrow.js"></script>
-    <script src="plugins/sigma.plugins.dragNodes/sigma.plugins.dragNodes.js"></script>
-    <script src="plugins/sigma.plugins.relativeSize/sigma.plugins.relativeSize.js"></script>
-    <script src="plugins/sigma.layout.noverlap/sigma.layout.noverlap.js"></script>
-    <script src="src/renderers/canvas/sigma.canvas.nodes.def.js"></script>
-    <script src="plugins/sigma.exporters.svg/sigma.exporters.svg.js"></script>
-    <script src="plugins/sigma.renderers.snapshot/sigma.renderers.snapshot.js"></script>
-    <script src="plugins/sigma.layouts.fruchtermanReingold/sigma.layout.fruchtermanReingold.js"></script>
-    <script src="plugins/sigma.plugins.filter/sigma.plugins.filter.js"></script>
-    <script src="src/middlewares/sigma.middlewares.rescale.js"></script>
+	  <script src="sigma.min.js"></script>
+<script src="plugins/sigma.layout.forceAtlas2/worker.js"></script><!-- OK -->
+<script src="plugins/sigma.layout.forceAtlas2/supervisor.js"></script><!-- OK -->
+<script src="plugins/sigma.renderers.edgeLabels/settings.js"></script><!-- OK -->
+<script src="plugins/sigma.renderers.edgeLabels/sigma.canvas.edges.labels.curve.js"></script><!-- OK -->
+<script src="plugins/sigma.renderers.edgeLabels/sigma.canvas.edges.labels.def.js"></script><!-- OK -->
+<script src="plugins/sigma.renderers.edgeLabels/sigma.canvas.edges.labels.curvedArrow.js"></script><!-- OK -->
+<script src="plugins/sigma.plugins.dragNodes/sigma.plugins.dragNodes.js"></script><!-- OK -->
+<script src="plugins/sigma.plugins.animate/sigma.plugins.animate.js"></script><!-- OK -->
+<script src="plugins/sigma.plugins.relativeSize/sigma.plugins.relativeSize.js"></script>
+<script src="plugins/sigma.layout.noverlap/sigma.layout.noverlap.js"></script>
+<script src="src/renderers/canvas/sigma.canvas.nodes.def.js"></script>
+<script src="plugins/sigma.exporters.svg/sigma.exporters.svg.js"></script>
+<script src="plugins/sigma.renderers.snapshot/sigma.renderers.snapshot.js"></script>
+<script src="plugins/sigma.layouts.fruchtermanReingold/sigma.layout.fruchtermanReingold.js"></script>
+<script src="plugins/sigma.plugins.filter/sigma.plugins.filter.js"></script>
+<script src="src/middlewares/sigma.middlewares.rescale.js"></script>
 
-	<!-- JQUERY-->
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-	<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
-	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-	<!-- JSOC -->
-	  <script type="text/javascript" src="https://cdn.jsdelivr.net/jquery.jssocials/1.4.0/jssocials.min.js"></script>
-	  <link type="text/css" rel="stylesheet" href="https://cdn.jsdelivr.net/jquery.jssocials/1.4.0/jssocials.css" />
-	  <link type="text/css" rel="stylesheet" href="https://cdn.jsdelivr.net/jquery.jssocials/1.4.0/jssocials-theme-flat.css" >
-	
-	<!-- custom dariah script -->
-	  <script type="text/javascript" src="vis.js"></script>
-	
-	<!-- custom styling -->
-	<link rel="stylesheet" type="text/css" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/themes/base/jquery-ui.css">
-	<link rel="stylesheet" href="style.css">
+
+<script defer src="https://use.fontawesome.com/releases/v5.0.0/js/all.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+
+<!-- JQUERY-->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<!-- JSOC -->
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/jquery.jssocials/1.4.0/jssocials.min.js"></script>
+    <link type="text/css" rel="stylesheet" href="https://cdn.jsdelivr.net/jquery.jssocials/1.4.0/jssocials.css" />
+    <link type="text/css" rel="stylesheet" href="https://cdn.jsdelivr.net/jquery.jssocials/1.4.0/jssocials-theme-flat.css" >
+
+<!-- custom dariah script -->
+    <script type="text/javascript" src="vis.js"></script>
+
+<!-- custom styling -->
+<link rel="stylesheet" type="text/css" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/themes/base/jquery-ui.css">
+    <link rel="stylesheet" href="style.css">
+
 
 
 ```
