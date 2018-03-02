@@ -47,6 +47,9 @@ var fixedsize = false;              // use true or false.
 var nameforsize = "your_size_key";             // In your data, what key is used to denote the size of a node? (string)
 
 
+//Is the network directed or undirected? A network is undirected if a relation does not have an explicit direction.
+var directed = false;				// use true or false
+
 // Leave code below as is.
 
   //Filling Blackboard div.
@@ -375,6 +378,7 @@ for (var i = 0; i < graph.nodes.length; i++){
       xside = 1;
       yside = yside+1;
     }
+
     g.nodes.push({
       id: id,
       label: label,
@@ -386,6 +390,7 @@ for (var i = 0; i < graph.nodes.length; i++){
       color: color,
     })
   }
+
 
 function edgecolor_assigner(state, alt){
   if (state){
@@ -407,6 +412,8 @@ for (var i = 0; i < graph.edges.length; i++){
     type:"line",
   });
 };
+
+
 /*
  This function takes the settings name  used in the sigma instances as input (i.e. variable_input)
  based on that and the mode that's been declared in the main function it returns values that are
@@ -538,7 +545,11 @@ function showrelation(edgeid){
       var edge_trg = g.edges[ed].target;
       var edge_src_label = lookup_id(edge_src);
       var edge_trg_label = lookup_id(edge_trg);
-      var inject_edge_data_only = "<p>Source: <span id='"+edge_src+"' class='hotlink_node'>"+edge_src_label+"</span></p><p>Target: <span id='"+edge_trg+"' class='hotlink_node'>"+edge_trg_label+"</span></p>";
+      if (directed === true) {
+  		    var inject_edge_data_only = "<p>Source: <span id='"+edge_src+"' class='hotlink_node'>"+edge_src_label+"</span></p><p>Target: <span id='"+edge_trg+"' class='hotlink_node'>"+edge_trg_label+"</span></p>";
+  	  }else{
+  		    var inject_edge_data_only = "<p>Node1: <span id='"+edge_src+"' class='hotlink_node'>"+edge_src_label+"</span></p><p>Node2: <span id='"+edge_trg+"' class='hotlink_node'>"+edge_trg_label+"</span></p>";
+  	  };
       var object_keys_edge = Object.keys(g.edges[ed]);
       for (var ek = 0; ek <object_keys_edge.length; ek++){
         if(edge_ignore.indexOf(object_keys_edge[ek])<0){
@@ -610,11 +621,24 @@ function shownode(nodeid, source){
        }
      })
    };
-   document.getElementById("holdinjected").innerHTML=inject_node_data + "<h3>Outgoing relations: "+outtargets.length+"</h3>"+ outboundrelations + "<h3>Incoming relations: "+intargets.length+"</h3>"+ inboundrelations;
+   if (directed === true){
+   		document.getElementById("holdinjected").innerHTML=inject_node_data + "<h3>Outgoing relations: "+outtargets.length+"</h3>"+ outboundrelations + "<h3>Incoming relations: "+intargets.length+"</h3>"+ inboundrelations;
+   	} else{
+   	var allrelations = intargets.concat(outtargets);
+    var mutualrelations = "";		// if the network is undirected
+   	for (var itterator = 0; itterator <allrelations.length; itterator++){
+   		s.graph.nodes().forEach(function(n){
+   			if(n.id === allrelations[itterator][0]){
+   				mutualrelations = mutualrelations + "<p>"+n.label+". <span class='hotlink_edge' id='"+allrelations[itterator][1]+"' title='click for more information on this relationship'>E?</span> / <span class='hotlink_node' id='"+n.id+"' title='click for more information on this node'>N?</span> </p>";
+   			}
+   		})
+   	};
+    document.getElementById("holdinjected").innerHTML=inject_node_data + "<h3>Relations: "+allrelations.length+"</h3>" + mutualrelations;//+ outboundrelations + "<h3>Incoming relations: "+intargets.length+"</h3>"+ inboundrelations;
+   }
    document.getElementById("default-txt").style.visibility = "hidden";
    document.getElementById("holdinjected").style.visibility = "visible";
       break
-    }
+  }
   }
 
 };
@@ -634,6 +658,7 @@ s.bind("clickNode", function (e) {
   var outtargets = [];
   var intargets = [];
   var temparr=[];
+  var mutualrelations = "";		// if the network is undirected
       // detecting outbound relations.
   for (var outrel = 0; outrel <graph.edges.length; outrel ++){
     if ( graph.edges[outrel].source === ego){
@@ -666,7 +691,19 @@ s.bind("clickNode", function (e) {
       }
     })
   };
-  document.getElementById("holdinjected").innerHTML=inject_node_data + "<h3>Outgoing relations: "+outtargets.length+"</h3>"+ outboundrelations + "<h3>Incoming relations: "+intargets.length+"</h3>"+ inboundrelations;
+  if (directed === true){
+	  document.getElementById("holdinjected").innerHTML=inject_node_data + "<h3>Outgoing relations: "+outtargets.length+"</h3>"+ outboundrelations + "<h3>Incoming relations: "+intargets.length+"</h3>"+ inboundrelations;
+  }else{
+	var allrelations = intargets.concat(outtargets);
+	for (var itterator = 0; itterator <allrelations.length; itterator++){
+		s.graph.nodes().forEach(function(n){
+			if(n.id === allrelations[itterator][0]){
+				mutualrelations = mutualrelations + "<p>"+n.label+". <span class='hotlink_edge' id='"+allrelations[itterator][1]+"' title='click for more information on this relationship'>E?</span> / <span class='hotlink_node' id='"+n.id+"' title='click for more information on this node'>N?</span> </p>";
+			}
+		})
+	};
+	document.getElementById("holdinjected").innerHTML=inject_node_data + "<h3>Relations: "+allrelations.length+"</h3>"+ mutualrelations;
+};
   document.getElementById("default-txt").style.visibility = "hidden";
   document.getElementById("holdinjected").style.visibility = "visible";
 });
@@ -700,7 +737,11 @@ s.bind("clickEdge", function(e) {
   var edge_trg = e.data.edge.target;
   var edge_src_label = lookup_id(edge_src);
   var edge_trg_label = lookup_id(edge_trg);
-  inject_edge_data += "<p>Source: <span id='"+edge_src+"' class='hotlink_node'>"+edge_src_label+"</span></p><p>Target: <span id='"+edge_trg+"' class='hotlink_node'>"+edge_trg_label+"</span></p>";
+  if (directed === true){
+	inject_edge_data += "<p>Source: <span id='"+edge_src+"' class='hotlink_node'>"+edge_src_label+"</span></p><p>Target: <span id='"+edge_trg+"' class='hotlink_node'>"+edge_trg_label+"</span></p>";
+  } else{
+	inject_edge_data += "<p>Node1: <span id='"+edge_src+"' class='hotlink_node'>"+edge_src_label+"</span></p><p>Node2: <span id='"+edge_trg+"' class='hotlink_node'>"+edge_trg_label+"</span></p>";
+  };
   for (var ek = 0; ek <object_keys_edge.length; ek++){
     if(edge_ignore.indexOf(object_keys_edge[ek])<0){
       inject_edge_data += "<p>"+object_keys_edge[ek]+": "+e.data.edge[object_keys_edge[ek]]+"</p>";

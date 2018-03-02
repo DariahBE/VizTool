@@ -1,5 +1,5 @@
 # Sigma.js Drop-in tool
-Shared under GNU-license,
+Shared under MIT-license,
 developed at the KULeuven for DARIAH-BE
 
 **NOTICE**: draft version
@@ -13,7 +13,7 @@ This tool is powered by the **sigma.js** library, as such it will require the si
 
 There's also a need for **jQuery**
 ### Intended use
-This tool is developed to be used as an alternative to gephi-files. It specifically targets websites that work with continuously growing databases and don't want to spend time on recreating a gephi-graph after each database-update.
+This tool is developed to be used as an alternative to gephi-files. It specifically targets websites that work with continuously growing databases and don't want to spend time on recreating a gephi-graph after each database-update or websites who wish to generate a network on the fly.
 
 Data can be fed to the applet by PHP or HTML. 
 
@@ -33,6 +33,7 @@ Data can be fed to the applet by PHP or HTML.
 	  - plugins/sigma.exporters.svg
 	  - plugins/sigma.renderers.snapshot
 	  - plugins/sigma.plugins.filter
+	  - plugins/sigma.plugins.animate
 	  - src/renderers/canvas
 	  - src/middlewares
 
@@ -46,24 +47,23 @@ Data can be fed to the applet by PHP or HTML.
   - In the <code>head</code> section you'll need to link all dependencies.
 
 ```HTML
-  <meta charset="utf-8">
-  <script src="sigma.min.js"></script>
-  <script src="plugins/sigma.layout.forceAtlas2/worker.js"></script>
-  <script src="plugins/sigma.layout.forceAtlas2/supervisor.js"></script>
-  <script src="plugins/sigma.renderers.edgeLabels/settings.js"></script>
-  <script src="plugins/sigma.renderers.edgeLabels/sigma.canvas.edges.labels.curve.js"></script>
-  <script src="plugins/sigma.renderers.edgeLabels/sigma.canvas.edges.labels.def.js"></script>
-  <script src="plugins/sigma.renderers.edgeLabels/sigma.canvas.edges.labels.curvedArrow.js"></script>
-  <script src="plugins/sigma.plugins.dragNodes/sigma.plugins.dragNodes.js"></script>
-  <script src="plugins/sigma.plugins.animate/sigma.plugins.animate.js"></script>
-  <script src="plugins/sigma.plugins.relativeSize/sigma.plugins.relativeSize.js"></script>
-  <script src="plugins/sigma.layout.noverlap/sigma.layout.noverlap.js"></script>
-  <script src="src/renderers/canvas/sigma.canvas.nodes.def.js"></script>
-  <script src="plugins/sigma.exporters.svg/sigma.exporters.svg.js"></script>
-  <script src="plugins/sigma.renderers.snapshot/sigma.renderers.snapshot.js"></script>
-  <script src="plugins/sigma.layouts.fruchtermanReingold/sigma.layout.fruchtermanReingold.js"></script>
-  <script src="plugins/sigma.plugins.filter/sigma.plugins.filter.js"></script>
-  <script src="src/middlewares/sigma.middlewares.rescale.js"></script>
+
+	<script src="plugins/sigma.layout.forceAtlas2/worker.js"></script>
+    <script src="plugins/sigma.layout.forceAtlas2/supervisor.js"></script>
+    <script src="plugins/sigma.renderers.edgeLabels/settings.js"></script>
+    <script src="plugins/sigma.renderers.edgeLabels/sigma.canvas.edges.labels.curve.js"></script>
+    <script src="plugins/sigma.plugins.animate/sigma.plugins.animate.js"></script>
+    <script src="plugins/sigma.renderers.edgeLabels/sigma.canvas.edges.labels.def.js"></script>
+    <script src="plugins/sigma.renderers.edgeLabels/sigma.canvas.edges.labels.curvedArrow.js"></script>
+    <script src="plugins/sigma.plugins.dragNodes/sigma.plugins.dragNodes.js"></script>
+    <script src="plugins/sigma.plugins.relativeSize/sigma.plugins.relativeSize.js"></script>
+    <script src="plugins/sigma.layout.noverlap/sigma.layout.noverlap.js"></script>
+    <script src="src/renderers/canvas/sigma.canvas.nodes.def.js"></script>
+    <script src="plugins/sigma.exporters.svg/sigma.exporters.svg.js"></script>
+    <script src="plugins/sigma.renderers.snapshot/sigma.renderers.snapshot.js"></script>
+    <script src="plugins/sigma.layouts.fruchtermanReingold/sigma.layout.fruchtermanReingold.js"></script>
+    <script src="plugins/sigma.plugins.filter/sigma.plugins.filter.js"></script>
+    <script src="src/middlewares/sigma.middlewares.rescale.js"></script>
 
   <!-- JQUERY-->
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
@@ -82,7 +82,6 @@ Data can be fed to the applet by PHP or HTML.
 <!-- custom styling -->
 <link rel="stylesheet" type="text/css" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/themes/base/jquery-ui.css">
 <link rel="stylesheet" href="style.css">
-
 
 
 ```
@@ -641,6 +640,20 @@ var nameforsize = "diameter";             // In your data, what key is used to d
 
 By doing so the s.relativesize method won't be called in a later stage of the script; however, the size remains relative to the amount of nodes on the screen. I.e. a node with size 50 will be bigger when there are only 30 nodes in your network than when there are 3000 nodes in the network. This 'scale' is equally applied to all nodes. So a node A with size 10 and a node B with size 50 will hold their 1-to-5-ratio independently from the amount of nodes in the network.  
 
+#### Undirected or directed network ####
+Since march 2<sup>nd</sup> this tool will make a visual distinction in it's information representation if a network is undirected. For this we introduced a new configuration variable which controls multiple parts of the code called <code>directed.</code>
+
+<pre><code>
+//Is the network directed or undirected? A network is undirected if a relation does not have an explicit direction. Note however that sigma still needs the explicit source/target in the JSON-data. So there's no difference in feeding data to the tool.
+
+var directed = false;				// use true or false
+</code></pre>
+
+The variable <code>directed</code> is a boolean (takes true or false).
+
+*false*: If set to <code>false</code> the network is considered as **undirected**. Meaning that the information pane will now show all **connections grouped together** and considers both nodes connected by the edge as **peers** rather than source / target. 
+
+*true*: If set to <code>true</code> the network is considered as **directed**. Meaning that the information pane will now distinguish **ingoing** and **outgoing** relations. When clicking on edges, it will not consider both nodes as peers, but make explicit who the **source** is and who the **target** is of said edge. 
 
 <hr>
 <hr>
