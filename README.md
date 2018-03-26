@@ -44,11 +44,12 @@ Data can be fed to the applet by PHP or HTML.
 	  - plugins/sigma.layouts.fruchtermanReingold
 
 3. Create your HTML or PHP document
-  - In the <code>head</code> section you'll need to link all dependencies.
+  - In the <code>head</code> section you'll need to link all dependencies, which are the plugins you coppied and the minified version of sigma.js. The minified version should come before calling additional plugins. The example below references sigma.min.js in the same folder as you store your index.html file, however, it can be stored elsewhere if referrenced correctly.
 
 ```HTML
+    <script src="sigma.min.js"></script>
 
-	<script src="plugins/sigma.layout.forceAtlas2/worker.js"></script>
+    <script src="plugins/sigma.layout.forceAtlas2/worker.js"></script>
     <script src="plugins/sigma.layout.forceAtlas2/supervisor.js"></script>
     <script src="plugins/sigma.renderers.edgeLabels/settings.js"></script>
     <script src="plugins/sigma.renderers.edgeLabels/sigma.canvas.edges.labels.curve.js"></script>
