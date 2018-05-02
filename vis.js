@@ -27,7 +27,7 @@ var node_ignore = ["x", "y", "size", "color", "id", "hidden", "read_cam0:size", 
 
   // hides these attributes form the edges in the onclick event:
       // NOTICE ==> source and target are not used directly; they are replaced by the correlating node-labels
-var edge_ignore = ["color", "size", "id", "type", "hidden", "read_cam0:size", "renderer1:size", "source", "target"];
+var edge_ignore = ["color", "size", "id", "type", "hidden", "read_cam0:size", "renderer1:size", "source", "target", "count"];
 
   // Filename Export        Change this to alter the name of exported files.
 var filename = "Trismegistos-Graph-Export";
@@ -409,10 +409,22 @@ function edgecolor_assigner(state, alt){
     return alt;
   }
 };
+
+var countlog = {};
+function setcount(from, to){
+  var setcountid = from.toString()+"-"+to.toString();
+  if (!(setcountid in countlog)){
+    countlog[setcountid]=0;
+    return 0;
+  }else{
+    countlog[setcountid]=countlog[setcountid]+1
+    return countlog[setcountid]+4;
+  }
+};
+
 // Customize this code to push components from your data to g.edges.
 var edgescol = edgecolor_assigner(edgecol_is_nodecol,edgecol);
 for (var i = 0; i < graph.edges.length; i++){
-  // new variables go here.
   g.edges.push({
     id: graph.edges[i]["id"],
     source: graph.edges[i]["source"],
@@ -420,11 +432,11 @@ for (var i = 0; i < graph.edges.length; i++){
     color: edgescol,
     size: 1,
     type: edgetype,
-    count: i
+    count: setcount(graph.edges[i]["source"], graph.edges[i]["target"])
   });
 };
 
-
+countlog = null; //I don't need this object so kill it
 /*
  This function takes the settings name  used in the sigma instances as input (i.e. variable_input)
  based on that and the mode that's been declared in the main function it returns values that are
@@ -449,6 +461,7 @@ function modevar(variable_input){
     else if(mode === "precise"){return false;}
   }
 }
+
 
 s = new sigma({
   graph: g,

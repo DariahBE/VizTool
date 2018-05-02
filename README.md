@@ -15,7 +15,7 @@ There's also a need for **jQuery**
 ### Intended use
 This tool is developed to be used as an alternative to gephi-files. It specifically targets websites that work with continuously growing databases and don't want to spend time on recreating a gephi-graph after each database-update or websites who wish to generate a network on the fly.
 
-Data can be fed to the applet by PHP or HTML. 
+Data can be fed to the applet by PHP or HTML.
 
 ### Implementation
 
@@ -38,7 +38,7 @@ Data can be fed to the applet by PHP or HTML.
 	  - src/renderers/canvas
 	  - src/middlewares
 
-2. Download FruchtermanReingold from linkurious. 
+2. Download FruchtermanReingold from linkurious.
   - Go to the linkurious.js [GitHub page](https://github.com/Linkurious/linkurious.js "GitHub page")
   - Download the library
   - Copy the following folder to your own project folder:
@@ -66,6 +66,7 @@ Data can be fed to the applet by PHP or HTML.
     <script src="plugins/sigma.layouts.fruchtermanReingold/sigma.layout.fruchtermanReingold.js"></script>
     <script src="plugins/sigma.plugins.filter/sigma.plugins.filter.js"></script>
     <script src="src/middlewares/sigma.middlewares.rescale.js"></script>
+    <script src="plugins/sigma.renderers.parallelEdges/utils.js"></script>
     <script src="plugins/sigma.renderers.parallelEdges/sigma.canvas.edges.labels.curve.js"></script>
     <script src="plugins/sigma.renderers.parallelEdges/sigma.canvas.edges.curvedArrow.js"></script>
     <script src="plugins/sigma.renderers.parallelEdges/sigma.canvas.edges.curve.js"></script>
@@ -95,7 +96,7 @@ Data can be fed to the applet by PHP or HTML.
 
 You can now close the <code>head</code> tag
 
-4. Prepare the <code>body</code> tag. 
+4. Prepare the <code>body</code> tag.
   - Create a div with the id "blackboard"
 	  - ``` <div id="blackboard"></div>```
 
@@ -139,7 +140,7 @@ After this first <code>script</code> tag open a second tag to enable JSocials in
 You can now close the <code>body</code> tag.
 
 ### Formatting Data
-Unlike traditional JavaScript GEXF-viewers, this tool takes JSON as data-input. You'll need to properly format the edges and nodes for this to work. Read through this chapter before creating your PHP-script as it will save you a ton of time. 
+Unlike traditional JavaScript GEXF-viewers, this tool takes JSON as data-input. You'll need to properly format the edges and nodes for this to work. Read through this chapter before creating your PHP-script as it will save you a ton of time.
 
 #### Edges
 Edges are the lines that describe a relation between two nodes. They have a source and a target, meaning they have a certain direction. Each edge is also unique, and indicated by an ID.
@@ -155,15 +156,15 @@ You can add any optional components you want, to describe the relation between t
 ##### Required components: ####
 - id: This is a unique identifier (integer). You cannot have more than one node with the same id.
 ##### Not required, but advised:
-- label: This can be the name for a node. It is displayed when it's hovered and used in the information panel at Node-information, incoming relations and outgoing relations. 
+- label: This can be the name for a node. It is displayed when it's hovered and used in the information panel at Node-information, incoming relations and outgoing relations.
 
 ##### Optional components: ####
-These variables are not required by the JavaScript application, but if you have them, they'll give you more control over the end-result of the graph. 
+These variables are not required by the JavaScript application, but if you have them, they'll give you more control over the end-result of the graph.
 - x: The X-coordinate of a node; this positions the node on the canvas.
 	- See **code customization** ==> **positioning**
 - y: The Y-coordinate of a node; this positions the node on the canvas.
-	- See **code customization** ==> **positioning** 
-- size: This determines how large a node must be. 
+	- See **code customization** ==> **positioning**
+- size: This determines how large a node must be.
 	- See **code customization** ==> **sizing**
 - color:
 	- See **code customization** ==> **color**
@@ -172,12 +173,12 @@ These variables are not required by the JavaScript application, but if you have 
 #### Valid JSON data ####
 
 ##### introduction #####
-JSON or **J**ava**S**cript **O**bject **N**otation is a lightweight way of transmitting data from a server to a web browser. The transmitted data consists of text-only (so if your graph contains images for each node, you can't send the image directly, but you can send the URI or URL as text and use it later.). 
+JSON or **J**ava**S**cript **O**bject **N**otation is a lightweight way of transmitting data from a server to a web browser. The transmitted data consists of text-only (so if your graph contains images for each node, you can't send the image directly, but you can send the URI or URL as text and use it later.).
 
 ##### Constructing JSON data #####
-First we'll give our JSON-data a name. This has to be done between <code>\<script></code> tags. 
+First we'll give our JSON-data a name. This has to be done between <code>\<script></code> tags.
 
-So in your HTML or PHP script you'll have code like this: 
+So in your HTML or PHP script you'll have code like this:
 
 ```
 	<script>
@@ -190,12 +191,12 @@ So in your HTML or PHP script you'll have code like this:
 
 ```
 
-The above code will send an empty JSON-object to the JavaScript function. To render a graph and parse valid JSON, the variable <code>json_data</code> will always need to contain two arrays. One array for the edges, a second array for the nodes. 
+The above code will send an empty JSON-object to the JavaScript function. To render a graph and parse valid JSON, the variable <code>json_data</code> will always need to contain two arrays. One array for the edges, a second array for the nodes.
 
 Insert these arrays in <code>json_data</code>
 ```
 	<script>
-		var json_data = 
+		var json_data =
 		{"edges":[],
 		 "nodes":[]
 		};
@@ -212,7 +213,7 @@ We'll update the code above to reflect a network of four nodes and eight edges.
 
 ```
 	<script>
-		var json_data = 
+		var json_data =
 		{"edges":[
 			{"source":"0","target":"1","id":"0"},
 			{"source":"0","target":"3","id":"1"},
@@ -250,11 +251,11 @@ Fortunately there are tools to detect this. A good online tool that seems to hav
 An alternative is to use a JSON validator plugin in your web browser. For Chromium based browsers you can use [Json Borne](https://chrome.google.com/webstore/detail/json-borne-json-validator/jdlfgjpngcbjpdkbobhijcpfaainabai?utm_source=chrome-ntp-icon). This tool will help you check if your JSON markup is valid (In some cases this tool might say that your markup is invalid, but the sigma libraries has built-in methods to handle this.).
 
 #### Passing Node components from data to graph g. ####
-Node components need to be pushed to the node array in <code>var g</code>. This happens by a <code>for loop</code>. This loops over all the data in <code>graph.nodes</code>, takes specific keys from it, and pushes those keys in <code>g.nodes</code> together with the corresponding value. 
+Node components need to be pushed to the node array in <code>var g</code>. This happens by a <code>for loop</code>. This loops over all the data in <code>graph.nodes</code>, takes specific keys from it, and pushes those keys in <code>g.nodes</code> together with the corresponding value.
 
 You'll need to set up this behavior by editing the code. In the main JavaScript file look for a comment <code>//customize this code to push components from your data to g.nodes</code>
 
-The <code>for loop </code> below that comment consists of two major parts. The first part creates variables and assigns a value to this. 
+The <code>for loop </code> below that comment consists of two major parts. The first part creates variables and assigns a value to this.
 
 Example:<code> var id = graph.nodes[i]["id"];</code>
 The <code>[i]</code> is used to iterate over graph.nodes and can be read as the i<sup>th</sup> element. Te string inside the second set of brackets, in this case <code>["id"]</code> relates to the keys in the JSON-data. It says that the variable id is value related to that <code>"id"</code> key for the <code>n<sup>th</sup></code> element of graph.nodes.
@@ -263,7 +264,7 @@ This has to be done for all components you want to push to g.nodes, make sure th
 
 An alternative to retrieving the value for a variable from <code>graph.nodes</code> is to determine it on the fly. This is done by relying on functions. These functions are created specifically for one type of variable, i.e. the position, color or size variables which are determined by <code>positioner(coord, i)</code> function, <code>determincolor()</code> and the <code>determinesize(i)</code> function.
 
-**positioner()** 
+**positioner()**
 
 The positioner function takes in two arguments, a string, "x" or "y" and the iterator <code>i</code>. It will return the desired position for the x and y coordinates.
 
@@ -273,8 +274,8 @@ Depending on the configuration of the code (see: **code customization** ==> **po
 **determinecolor()**
 
 This function dynamically assigns colors to nodes it takes one argument which can be chosen by you. In the provided JavaScript code, it assigns colors based on the variable <code>typology</code>, which was extracted from <code>graph.nodes</code> earlier. As an alternative the nationality could also be used. If you add other variables (for instance: gender, profession, ...) that can be color-coded, you'll need to keep the following in mind:
-  - Don't overdo it with colors, stick to a maximum of seven discernible colors. 
-  - The argument used by the function must be extracted from <code>graph.nodes</code> before passing it to the function. 
+  - Don't overdo it with colors, stick to a maximum of seven discernible colors.
+  - The argument used by the function must be extracted from <code>graph.nodes</code> before passing it to the function.
   - You'd need to update the function called determinecolor(). (See: **code customization** ==> **color**)
 
 
@@ -292,7 +293,7 @@ In this section you'll learn how to add new components to each node. A component
 
 Adding components consists of two steps (in some cases it can be done in one step, but to prevent confusion this documentation will only discuss the two-step method as it will work in all cases).
 
-In the first step create a new variable and give it a descriptive name without spaces. Then set it equal to a certain key in <code>graph.nodes</code>. Since we want to do this for every note, we need to include the iterator <code>i</code> and the source <code>graph.nodes</code>. To conclude this first step, we'll need to call a key for the sake of this document, we'll call the key <code>day_of_birth</code>. Since this is pure JavaScript, you'll need to end each variable declaration by a semicolon <code>;</code>. A valid declaration looks like this: 
+In the first step create a new variable and give it a descriptive name without spaces. Then set it equal to a certain key in <code>graph.nodes</code>. Since we want to do this for every note, we need to include the iterator <code>i</code> and the source <code>graph.nodes</code>. To conclude this first step, we'll need to call a key for the sake of this document, we'll call the key <code>day_of_birth</code>. Since this is pure JavaScript, you'll need to end each variable declaration by a semicolon <code>;</code>. A valid declaration looks like this:
 
 <code>var my_component = graph.nodes[i]["day_of_birth"];</code>
 
@@ -307,7 +308,7 @@ In the second step you'd need to push the declared variable to <code>g.nodes</co
 	...
 })</code></pre>
 
-This code section consists of a key, a colon and a value. At this stage it is important to use keys that are self-explanatory as these keys are displayed in the filter and the information pane. 
+This code section consists of a key, a colon and a value. At this stage it is important to use keys that are self-explanatory as these keys are displayed in the filter and the information pane.
 
 A key can be written down as a string by the help of <code>"</code>, this is needed if the key contains a space. If your key does not contain a space, it can be written down without <code>"</code>. You can not use the same key twice!
 
@@ -321,7 +322,7 @@ Some other keys are of great importance to the functionality of this JavaScript 
 
 All other keys can be discarded or replaced by your own, however some keys hold special meaning to sigma:
   - color: is used to color a graph (if absent all nodes will render white)
-  - size: is used to determine the size of a graph. If absent Sigma will auto-determine the size unless <code>size_is_known=true</code> (see: **code customization** ==> **sizing**). 
+  - size: is used to determine the size of a graph. If absent Sigma will auto-determine the size unless <code>size_is_known=true</code> (see: **code customization** ==> **sizing**).
 
 Pushing the variable you declared in step one happens like this:
 
@@ -339,7 +340,7 @@ If we make it more abstract you write the code like this:
 
 <code>"key as a string": variable_from_step_1,</code>
 
-Note that every key:value pair is separated by a comma <code>,</code>. 
+Note that every key:value pair is separated by a comma <code>,</code>.
 
 
 #### Passing Edge components from data to graph g. ####
@@ -348,7 +349,7 @@ Edges can be configured in a manner similar to the nodes. However, note that edg
 
 Editing edges-components happens in a way similar to adding nodes-components. The section responsible for this is indicated by a comment: <code>// Customize this code to push components from your data to g.edges.</code>
 
-Edges can contain information on the type of relation that exists between two nodes. (e.g. family, author_of, inhabitant, etc...). 
+Edges can contain information on the type of relation that exists between two nodes. (e.g. family, author_of, inhabitant, etc...).
 
 There are some keys which must remain in the push-section. These are:
   - id
@@ -376,7 +377,7 @@ for (var i = 0; i < graph.edges.length; i++){
 };
 </code></pre>
 
-As can be seen, the same construction is set-up, a for loop with an iterator <code>i</code> loops over <code>graph.edges</code>. 
+As can be seen, the same construction is set-up, a for loop with an iterator <code>i</code> loops over <code>graph.edges</code>.
 
 At every iteration it pushes the <code>i<sup>th</sup></code> item to <code>g.edges</code>
 
@@ -403,11 +404,11 @@ In the second step edit the part that pushes key:value-pairs to <code>g.edges</c
 
 Just like before create a descriptive key-name for instance "Family relation" and assign the variable from step one as a value.
 
-Since the key used in this example contains a space, you need to use quotes. Your code should look like this: 
+Since the key used in this example contains a space, you need to use quotes. Your code should look like this:
 
 <code> "Family relation": type_of_relation,</code>
 
-Notice that each key:value-pair is separated by a <code>,</code>. 
+Notice that each key:value-pair is separated by a <code>,</code>.
 
 If everything is done correctly, the entire for-loop should look like this:
 
@@ -480,7 +481,7 @@ function determinecolor(type){
 </code></pre>
 
 #### edgecolor ####
-This tool enables one to use the same color for all edges, or to use the color from the source-node as color for the edge. 
+This tool enables one to use the same color for all edges, or to use the color from the source-node as color for the edge.
 
 <pre><code>
   // Set Edgecolor same as Nodecolor? (use true or false.)
@@ -488,9 +489,9 @@ This tool enables one to use the same color for all edges, or to use the color f
 	var edgecol = "rgba(30,78,87,0.2)";     // if you set edgecol_is_nodecol = false; this will be the default color of edges.
 </code></pre>
 
-If <code>edgecol_is_nodecol</code> = <code>false</code> all edges will have one default color, this default color is determined by the variable <code>edgecol</code> below. This variable accepts: HEX, RGB and RGBA values. 
+If <code>edgecol_is_nodecol</code> = <code>false</code> all edges will have one default color, this default color is determined by the variable <code>edgecol</code> below. This variable accepts: HEX, RGB and RGBA values.
 
-By setting <code>edgecol_is_nodecol</code> to <code>true</code> all edges will have the same color as the originating node. 
+By setting <code>edgecol_is_nodecol</code> to <code>true</code> all edges will have the same color as the originating node.
 
 #### ignorelist ####
 This list is used by the filtering-segment of the code to prevent certain components from being used as filters. There's for instance no point in allowing users to filter on the x or y, position of a node.
@@ -502,7 +503,7 @@ The <code>ignorelist</code> is a JavaScript array and looks like this:
 var ignorelist = ["id", "x", "y", "size", "color", "label"];
 </code></pre>
 
-The items in this list are enclosed by quotes, meaning that they are strings. Each item is separated by a comma. 
+The items in this list are enclosed by quotes, meaning that they are strings. Each item is separated by a comma.
 
 If your nodes for instance have an attribute called "rank", and you don't want to provide this as a filter-option, you'll need to append it to <code>ignorelist</code>. This can easily be done like this:
 
@@ -511,7 +512,7 @@ If your nodes for instance have an attribute called "rank", and you don't want t
 #### link_board ####
 The link_board variable is a boolean, meaning it takes true or false as accepted values.
 
-The code relating to this functionality looks like this: 
+The code relating to this functionality looks like this:
 
 <pre><code>
 // link graphboard to left side information panel. (This will link clickevents between the two information panel and graph visualization.)
@@ -521,7 +522,7 @@ var link_board = true;              // true or false
 
 *true* when set to <code>true</code> the information pane on the left-side of the screen can be used to control the appearance of the graph. Every time a node is clicked in the side panel, it will look for the corresponding node in the graph, and use that node to create an ego-network (i.e. displaying only the nodes that have a direct relation with the clicked node.
 
-*false* when set to <code>false</code> the information pane on the left-side can be navigated without altering the appearance of the graph. 
+*false* when set to <code>false</code> the information pane on the left-side can be navigated without altering the appearance of the graph.
 
 #### node_ignore ####
 <code>node_ignore</code> uses the same principles as <code>ignorelist</code> but affects another part of program-functionality.
@@ -568,9 +569,9 @@ var filename = "Trismegistos-Graph-Export";
 var svg_size = 1920;
 </code></pre>
 
-The variable <code>filename</code> is a string and serves as the base for every exported graph. Users who download the jpg, png or svg to their computer will have a file that uses this string as a name. It is advised to choose something that allows users to recall where they got the image, making it easier to annotate or credit your site. 
+The variable <code>filename</code> is a string and serves as the base for every exported graph. Users who download the jpg, png or svg to their computer will have a file that uses this string as a name. It is advised to choose something that allows users to recall where they got the image, making it easier to annotate or credit your site.
 
-The variable <code>svg_size</code> is an integer (a whole number) and is used by the SVG-export-function to determine how large an exported graph has to be. 
+The variable <code>svg_size</code> is an integer (a whole number) and is used by the SVG-export-function to determine how large an exported graph has to be.
 
 
 #### max_interactive_density ####
@@ -589,10 +590,10 @@ In this case, the maximum density is set to 750 nodes. If your graph exceeds thi
 
 In both cases the user will receive a tooltip when hovering the corresponding button saying that this functionality is "Disabled due to too large network."
 
-You can always alter this value yourself by assigning a new integer value to it. 
+You can always alter this value yourself by assigning a new integer value to it.
 
 #### positioning ####
-This JavaScript application supports data where the coordinates are unknown, by calculating a square layout on the fly. It will however allow you to work with data where the coordinates are known. For this it uses three variables. 
+This JavaScript application supports data where the coordinates are unknown, by calculating a square layout on the fly. It will however allow you to work with data where the coordinates are known. For this it uses three variables.
 
 <pre><code>
   //Positioning of nodes.
@@ -602,13 +603,13 @@ var use_as_y = "your_y_coordinate";      // in your data, what key is used to de
 </code></pre>
 
 The variable <code>positions_are_known</code> is a boolean. It'll accept true or false.
-*false* If set to <code>false</code> the script will calculate the positions on the fly; resulting in a square layout. 
+*false* If set to <code>false</code> the script will calculate the positions on the fly; resulting in a square layout.
 
 *true* if set to <code>true</code> the script will rely on the two other variables to extract the x and y coordinates from the data sent to the JavaScript application.
 
-The variable <code>use_as_x</code> is a string. You'll need to provide the name of the key that is used in your data to indicate the x-position for each node. 
+The variable <code>use_as_x</code> is a string. You'll need to provide the name of the key that is used in your data to indicate the x-position for each node.
 
-The variable <code>use_as_y</code> is a string. You'll need to provide the name of the key that is used in your data to indicate the y-position for each node. 
+The variable <code>use_as_y</code> is a string. You'll need to provide the name of the key that is used in your data to indicate the y-position for each node.
 
 So in a situation where the coordinates are known, the x is indicated by a key called "here_is_x" and y is indicated by a key called "y_is_here". You'll need to update the code like this:
 
@@ -629,13 +630,13 @@ var fixedsize = false;              // use true or false.
 var nameforsize = "your_size_key";             // In your data, what key is used to denote the size of a node? (string)
 </code></pre>
 
-The variable <code>fixedsize</code> is a boolean (takes true or false). 
+The variable <code>fixedsize</code> is a boolean (takes true or false).
 
 *false*: If set to <code>false</code>, the program will auto-calculate the size of each node.
 
-*true*: If set to <code>true</code>, the program relies on a second variable to extract the correct value for each node from the data sent to the JavaScript application. 
+*true*: If set to <code>true</code>, the program relies on a second variable to extract the correct value for each node from the data sent to the JavaScript application.
 
-The variable <code>nameforsize</code> is a string. You'll need to provide the name of the key that is used in your data to indication the size of each node. 
+The variable <code>nameforsize</code> is a string. You'll need to provide the name of the key that is used in your data to indication the size of each node.
 
 So in a situation where the size is known and is indicated by a key called "diameter", you'll need to update the code like this:
 
@@ -658,9 +659,9 @@ var directed = false;				// use true or false
 
 The variable <code>directed</code> is a boolean (takes true or false).
 
-*false*: If set to <code>false</code> the network is considered as **undirected**. Meaning that the information pane will now show all **connections grouped together** and considers both nodes connected by the edge as **peers** rather than source / target. 
+*false*: If set to <code>false</code> the network is considered as **undirected**. Meaning that the information pane will now show all **connections grouped together** and considers both nodes connected by the edge as **peers** rather than source / target.
 
-*true*: If set to <code>true</code> the network is considered as **directed**. Meaning that the information pane will now distinguish **ingoing** and **outgoing** relations. When clicking on edges, it will not consider both nodes as peers, but make explicit who the **source** is and who the **target** is of said edge. 
+*true*: If set to <code>true</code> the network is considered as **directed**. Meaning that the information pane will now distinguish **ingoing** and **outgoing** relations. When clicking on edges, it will not consider both nodes as peers, but make explicit who the **source** is and who the **target** is of said edge.
 
 #### Edgetype controller ####
 
@@ -670,7 +671,7 @@ You can control which type of edges to use. Sigma.js Supports the following edge
   - **line**: straight line without arrow (best used for undirected graphs)
   - **curve**: curve without arrow (best used for undirected graphs with overlapping edges)
 
-by setting <code> var choose_this_edgetype = x;</code> to an integer value between ranging from 1 to 4 you can determine the look of the interface. 
+by setting <code> var choose_this_edgetype = x;</code> to an integer value between ranging from 1 to 4 you can determine the look of the interface.
 
   - use **1** for **arrow** type edges
   - use **2** for **curvedArrow** type edges
