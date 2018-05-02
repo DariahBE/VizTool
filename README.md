@@ -34,6 +34,7 @@ Data can be fed to the applet by PHP or HTML.
 	  - plugins/sigma.renderers.snapshot
 	  - plugins/sigma.plugins.filter
 	  - plugins/sigma.plugins.animate
+	  - plugins/sigma.renderers.parallelEdges
 	  - src/renderers/canvas
 	  - src/middlewares
 
@@ -65,6 +66,11 @@ Data can be fed to the applet by PHP or HTML.
     <script src="plugins/sigma.layouts.fruchtermanReingold/sigma.layout.fruchtermanReingold.js"></script>
     <script src="plugins/sigma.plugins.filter/sigma.plugins.filter.js"></script>
     <script src="src/middlewares/sigma.middlewares.rescale.js"></script>
+    <script src="plugins/sigma.renderers.parallelEdges/sigma.canvas.edges.labels.curve.js"></script>
+    <script src="plugins/sigma.renderers.parallelEdges/sigma.canvas.edges.curvedArrow.js"></script>
+    <script src="plugins/sigma.renderers.parallelEdges/sigma.canvas.edges.curve.js"></script>
+    <script src="plugins/sigma.renderers.parallelEdges/sigma.canvas.edgehovers.curvedArrow.js"></script>
+    <script src="plugins/sigma.renderers.parallelEdges/sigma.canvas.edgehovers.curve.js"></script>
 
   <!-- JQUERY-->
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
@@ -656,8 +662,27 @@ The variable <code>directed</code> is a boolean (takes true or false).
 
 *true*: If set to <code>true</code> the network is considered as **directed**. Meaning that the information pane will now distinguish **ingoing** and **outgoing** relations. When clicking on edges, it will not consider both nodes as peers, but make explicit who the **source** is and who the **target** is of said edge. 
 
+#### Edgetype controller ####
+
+You can control which type of edges to use. Sigma.js Supports the following edgetypes:
+  - **arrow**:  straight line from target to source with an arrow (best used for directed graphs)
+  - **curvedArrow**: curve from target to source with an arrow (best used for directed graphs with overlapping edges.)
+  - **line**: straight line without arrow (best used for undirected graphs)
+  - **curve**: curve without arrow (best used for undirected graphs with overlapping edges)
+
+by setting <code> var choose_this_edgetype = x;</code> to an integer value between ranging from 1 to 4 you can determine the look of the interface. 
+
+  - use **1** for **arrow** type edges
+  - use **2** for **curvedArrow** type edges
+  - use **3** for **line** type edges
+  - use **4** for **curve** type edges
+
+**NOTICE** invalid values are defaulted to 4.
+
 <hr>
 <hr>
+
+
 
 ## Questions? ##
 Prof. Dr. M Depauw: [Mark.Depauw@kuleuven.be ](mailto:Mark.Depauw@kuleuven.be )
