@@ -182,13 +182,13 @@ document.getElementById("skywalker").onclick = function(){
   var linlog = document.getElementById("linlogswitch").checked;
   var heavy = document.getElementById("heavy").checked;
   use_the_force = true;
-  yoda("strong_in_this_one", grav, scal, slow, linlog, heavy);
+  yoda(true, grav, scal, slow, linlog, heavy);
 };
 
 //ForceAtlas: Implicit builder (only active if use_the_force = true)
 function the_empire_strikes_back() {
   if (use_the_force){
-  yoda("stop_him_we_must");
+  yoda(false);
 
   var grav = $("#gravity_factor").slider("option", "value");
   var scal = $("#scaling_ratio").slider("option", "value");
@@ -196,13 +196,13 @@ function the_empire_strikes_back() {
   var linlog = document.getElementById("linlogswitch").checked;
   var heavy = document.getElementById("heavy").checked;
 
-  yoda("strong_in_this_one", grav, scal, slow, linlog, heavy);
+  yoda(true, grav, scal, slow, linlog, heavy);
   }
 };
 
 document.getElementById("darth_vader").onclick = function(){
     use_the_force = false;
-    yoda("stop_him_we_must");
+    yoda(false);
 };
 
   //creating buttons on screen.
@@ -462,7 +462,6 @@ function modevar(variable_input){
   }
 }
 
-
 s = new sigma({
   graph: g,
   renderer: {
@@ -506,7 +505,7 @@ function yoda(the_force, grav, scal, slow, linlog, heavy) {
       return false;
     }
   };
-if (the_force === "strong_in_this_one"){
+if (the_force){
   document.getElementById("snitch").style.backgroundColor="green";
   var fa_options = {
     worker: true,
