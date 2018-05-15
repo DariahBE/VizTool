@@ -418,7 +418,7 @@ function setcount(from, to){
     return 0;
   }else{
     countlog[setcountid]=countlog[setcountid]+1
-    return countlog[setcountid]+4;
+    return countlog[setcountid]+1;
   }
 };
 
@@ -473,9 +473,9 @@ s = new sigma({
     minNodeSize: nodesize/10,
     maxNodeSize: nodesize,
     minEdgeSize: edgesize/20,
-    maxEdgeSize: edgesize,
-    autoRescale: true,
-    autoResize: true,
+    maxEdgeSize: edgesize/2,
+    autoRescale: "nodes.size",
+    autoResize: "nodes.size",
     enableEdgeHovering: modevar("edgehover"),// if set to true this kills browser performance.
     edgeHoverExtremities: true,             // triggers labels to display on edgehover of connected nodes.
     defaultNodeColor:"#ffffff",
@@ -886,6 +886,7 @@ operator.setAttribute("id","ddoperator");
 operator.setAttribute("title","Select the operator first, this operator applies to the chose attributevalue.");
 document.getElementById("filterholder").appendChild(operator);
 
+
 var operatorlist = [["OR","or"], ["NOT","not"]];
 
 for (o =0; o < operatorlist.length; o++){
@@ -951,27 +952,27 @@ function runfilter(specsheet){
 };
 
 var filteroptions = {};
-function preparefilter(param){
-  var attribute_scope = param.className.split(" ")[0];
-  var attribute_value = param.value;
-  var attribute_id = param.id;
+function preparefilter(p1, p2){
   var operatorholder = document.getElementById("ddoperator");
   var operator = operatorholder[operatorholder.selectedIndex].value;
-  if(!(attribute_scope in filteroptions)){
-    filteroptions[attribute_scope] = {};
+  if(!(p2 in filteroptions)){
+    filteroptions[p2] = {};
   }
-  if(!(operator in filteroptions[attribute_scope])){
-    filteroptions[attribute_scope][operator] = ["'"+attribute_value+"'"];
+  if(!(operator in filteroptions[p2])){
+    filteroptions[p2][operator] = ["'"+p1+"'"];
   }else{
-    filteroptions[attribute_scope][operator].push("'"+attribute_value+"'");
+    filteroptions[p2][operator].push("'"+p1+"'");
   }
   runfilter(filteroptions);
 };
 
-var selectors = document.getElementsByClassName("attributeoption");
+
+var selectors = document.getElementsByClassName("filtermain");
 var a = selectors.length;
-while (a--){
-  selectors[a].addEventListener("click", function() {preparefilter(this)});
+while(a--){
+  document.getElementById(selectors[a].id).addEventListener("change", function(e){
+    preparefilter(this.value, this.children[1].className.split(" ")[0]);
+  })
 }
 
   //subfunction clear filtering
@@ -985,8 +986,12 @@ while (a--){
     filter.undo();  //removes all filters active on the canvas.
     filteroptions = {};     // Emptying the filteroptions-object!!!
     filter.apply(); // updates the graph on the canvas.
+    var a = selectors.length;
+    while(a--){
+      document.getElementById(selectors[a].id).selectedIndex=0;     //resets filter options to default "select option" prompt
+    }
 }
-//end of filtering
+//end of filtering;
 
 //Feature request: Zoom in/reset/out: 8/12/17
 var factor = 1.25;
