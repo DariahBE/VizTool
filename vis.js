@@ -10,7 +10,7 @@ function determinecolor(type){
   else if (type==="god"){return "rgba(94, 0, 163,0.4)";}
   else if (type==="demi god"){return "rgba(0, 255, 255,0.4)";}
   else{return"rgba(198,88,62,0.4)";}
-};
+}
 
   // Set Edgecolor same as Nodecolor? (use true or false.)
 var edgecol_is_nodecol = false;         // use true or false
@@ -63,7 +63,7 @@ choose_this_edgetype = choose_this_edgetype-1;      // from Human Readable to Ja
 var edgetype = types_of_edges[choose_this_edgetype];
 
   //Filling Blackboard div.
-document.getElementById("blackboard").innerHTML = '<div id="detail-container"> <div class="side_panels_content"> <div class="static"> <a href="https://www.kuleuven.be/kuleuven/" target="_blank"><img src="https://kuleuvencongres.be/eusea/images/kuleuven-logo-2012.png/image" alt="KUL" class="img-top"></a><a href="http://be.dariah.eu/" target="_blank"><img src="http://be.dariah.eu/sites/all/themes/dariah_be/logo.png" alt="Dariah-BE" class="img-top"></a> <p>Powered by: <a href="http://sigmajs.org/" target="_blank">sigma.js</a> </p> </div> <div class="txt"> <div id="holdinjected"> </div> <div id="default-txt"> <p id="default-msg">For more details on a given node, click it. Details appear here. </p></div></div></div></div><div id="graph-container"></div> <div id="interaction"> <div class="side_panels_content"> <div id="zoomcontrol"></div> <div class="controllers"> <div id="accordion"> <h4>Force Atlas 2 Layout <div id="snitch" title="This indicator shows you if ForceAtlas is still running. Red means that it\'s been stopped, green means that it\'s running. ForceAtlas is a continious layout algorithm and needs to be stopped explicitly"></div></h4><div><div class="FA_Options"><div id="scale_holder"><div class="display_unit"> <label for="scaling" title="ScalingRatio expands the graph, making it more sparse."><div>ScalingRatio: <input type="text" id="scaling" readonly style="border:0; background:none;"></div></label></div><div id="scaling_ratio" class="slider"></div></div><br><div id="gravity_holder"><div class="display_unit"><label for="gravity" title="Gravity attracts nodes to the center which prevents drifting nodes."><div>Gravity: <input type="text" id="gravity" readonly style="border:0; background:none;"></div></label></div><div id="gravity_factor" class="slider"></div></div><br><div id="slowdown_holder"><div class="display_unit"><label for="slowdown" title="Slowing down makes the nodes less prone to the repulsive forces from neighboring nodes. A higher value results in more stable nodes."><div>Slowdown: <input type="text" id="slowdown" readonly style="border:0; background:none;"></div></label></div><div id="slowdown_factor" class="slider"></div></div><br><div><label title="Makes the rendered clusters more tight by switching from lin-lin to lin-log(Andreas Noack). This is not recommended for small graphs.">LinLogmode:</label><div class="onoffswitch"><input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="linlogswitch"><label class="onoffswitch-label" for="linlogswitch"></label><span class="onoffswitch-inner"></span><span class="onoffswitch-switch"></span></div><br><label title="Forces a compact graph by attracting distant nodes, this force can be too strong and thus results in a biased placement.">StrongGravityMode:</label><div class="onoffswitch"><input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="heavy"><label class="onoffswitch-label" for="heavy"></label> <span class="onoffswitch-inner"></span><span class="onoffswitch-switch"></span></div><br></div></div><div class="FA_Controller"><input value="run forceatlas2" id="skywalker" type="button"><input value="stop forceatlas2" id="darth_vader" type="button"></div></div>  <h4>Fruchterman-Reingold Layout</h4><div><div class="FR_options"><div id="Fiterate_holder"><div class="display_unit"> <label for="iterator" title="How many times the algorithm is expected to run before rendering. WARNING: high values tend to be more precise, but are not suitable for large networks due to performance issues."><div>Iterations: <input type="text" id="iterator" readonly style="border:0; background:none;"></div></label></div><div id="iteration_ratio" class="slider"></div></div><br><div id="Fspeed_holder"><div class="display_unit"><label for ="F_speed" title="How fast the algorithms is expected to work. A higher value will give faster results at the cost of precision."><div>Speed: <input type="text" id="F_speed" readonly style="border:0; background:none;"></div></label></div><div id="speed_Fratio" class="slider"></div></div><br><div id="Fgrav_holder"><div class="display_unit"><label for ="F_gravity" title="This will attract all nodes to the center to avoid dispersion of unconnected nodes."><div>Gravity: <input type="text" id="F_gravity" readonly style="border:0; background:none;"></div></label></div><div id="gravity_Fratio" class="slider"></div></div><br></div><div id="FR_controller"></div></div></div><!-- hods the javascript buttons. --> <!-- no code here --> </div> <div id="filterholder"> <!-- no code here --> </div> <!--  <div id=viserion></div> --> <div class="footer"> <p>If Trismegistos helped you, share and <a href="http://www.trismegistos.org/about_how_to_cite" target="_blank">cite</a> us.</p> <div id="share"></div> <!-- JSOC Injection --> </div></div></div>';
+document.getElementById("blackboard").innerHTML = '<div id="detail-container"> <div class="side_panels_content"> <div class="static"> <a href="https://www.kuleuven.be/kuleuven/" target="_blank"><img src="https://kuleuvencongres.be/eusea/images/kuleuven-logo-2012.png/image" alt="KUL" class="img-top"></a><a href="http://be.dariah.eu/" target="_blank"><img src="http://be.dariah.eu/sites/all/themes/dariah_be/logo.png" alt="Dariah-BE" class="img-top"></a> <p>Powered by: <a href="http://sigmajs.org/" target="_blank">sigma.js</a> </p> </div> <div class="txt"> <div id="holdinjected"> </div> <div id="default-txt"> <p id="default-msg">For more details on a given node, click it. Details appear here. </p></div></div></div></div><div id="graph-container"></div> <div id="interaction"> <div class="side_panels_content"> <div id="zoomcontrol"></div> <div class="controllers"> <div id="accordion"> <h4>Force Atlas 2 Layout <div id="snitch" title="This indicator shows you if ForceAtlas is still running. Red means that it\'s been stopped, green means that it\'s running. ForceAtlas is a continious layout algorithm and needs to be stopped explicitly"></div></h4><div><div class="FA_Options"><div id="scale_holder"><div class="display_unit"> <label for="scaling" title="ScalingRatio expands the graph, making it more sparse."><div>ScalingRatio: <input type="text" id="scaling" readonly style="border:0; background:none;"></div></label></div><div id="scaling_ratio" class="slider"></div></div><br><div id="gravity_holder"><div class="display_unit"><label for="gravity" title="Gravity attracts nodes to the center which prevents drifting nodes."><div>Gravity: <input type="text" id="gravity" readonly style="border:0; background:none;"></div></label></div><div id="gravity_factor" class="slider"></div></div><br><div id="slowdown_holder"><div class="display_unit"><label for="slowdown" title="Slowing down makes the nodes less prone to the repulsive forces from neighboring nodes. A higher value results in more stable nodes."><div>Slowdown: <input type="text" id="slowdown" readonly style="border:0; background:none;"></div></label></div><div id="slowdown_factor" class="slider"></div></div><br><div><label title="Makes the rendered clusters more tight by switching from lin-lin to lin-log(Andreas Noack). This is not recommended for small graphs.">LinLogmode:</label><div class="onoffswitch"><input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="linlogswitch"><label class="onoffswitch-label" for="linlogswitch"></label><span class="onoffswitch-inner"></span><span class="onoffswitch-switch"></span></div><br><label title="Forces a compact graph by attracting distant nodes, this force can be too strong and thus results in a biased placement.">StrongGravityMode:</label><div class="onoffswitch"><input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="heavy"><label class="onoffswitch-label" for="heavy"></label> <span class="onoffswitch-inner"></span><span class="onoffswitch-switch"></span></div><br></div></div><div class="FA_Controller"><input value="run forceatlas2" id="skywalker" type="button"><input value="stop forceatlas2" id="darth_vader" type="button"></div></div>  <h4>Fruchterman-Reingold Layout</h4><div><div class="FR_options"><div id="Fiterate_holder"><div class="display_unit"> <label for="iterator" title="How many times the algorithm is expected to run before rendering. WARNING: high values tend to be more precise, but are not suitable for large networks due to performance issues."><div>Iterations: <input type="text" id="iterator" readonly style="border:0; background:none;"></div></label></div><div id="iteration_ratio" class="slider"></div></div><br><div id="Fspeed_holder"><div class="display_unit"><label for ="F_speed" title="How fast the algorithms is expected to work. A higher value will give faster results at the cost of precision."><div>Speed: <input type="text" id="F_speed" readonly style="border:0; background:none;"></div></label></div><div id="speed_Fratio" class="slider"></div></div><br><div id="Fgrav_holder"><div class="display_unit"><label for ="F_gravity" title="This will attract all nodes to the center to avoid dispersion of unconnected nodes."><div>Gravity: <input type="text" id="F_gravity" readonly style="border:0; background:none;"></div></label></div><div id="gravity_Fratio" class="slider"></div></div><br></div><div id="FR_controller"></div></div></div><!-- hods the javascript buttons. --> <!-- no code here --> </div> <div id="filterholder"><p>Node filter</p> <!-- no code here --> </div> <div id="filterholder2"><p>Edge filter</p> <!-- no code here --> </div> <!--  <div id=viserion></div> --> <div class="footer"> <p>If Trismegistos helped you, share and <a href="http://www.trismegistos.org/about_how_to_cite" target="_blank">cite</a> us.</p> <div id="share"></div> <!-- JSOC Injection --> </div></div></div>';
 
   //end of filling blackboard.
   // JQUERY UI SLiders and accordion
@@ -121,8 +121,8 @@ document.getElementById("blackboard").innerHTML = '<div id="detail-container"> <
     });
     $("#slowdown").val($("#slowdown_factor").slider("value"));
 
-    $("#linlogswitch").click(function(){the_empire_strikes_back()});
-    $("#heavy").click(function(){the_empire_strikes_back()});
+    $("#linlogswitch").click(function(){the_empire_strikes_back();});
+    $("#heavy").click(function(){the_empire_strikes_back();});
 
     // Fruchterman Reingold sliders.
     $("#iteration_ratio").slider({
@@ -198,7 +198,7 @@ function the_empire_strikes_back() {
 
   yoda(true, grav, scal, slow, linlog, heavy);
   }
-};
+}
 
 document.getElementById("darth_vader").onclick = function(){
     use_the_force = false;
@@ -218,7 +218,7 @@ if (graph.nodes.length > max_interactive_density){
 document.getElementById("FR_controller").appendChild(fruchterman_start);
 document.getElementById("milleniumfalcon").onclick = function(){
     allow_fruchterman = true;
-    fruchterman_func()
+    fruchterman_func();
 };
 
 var noverlap = document.createElement("INPUT");
@@ -231,7 +231,7 @@ if (graph.nodes.length > max_interactive_density){
 }
 document.getElementsByClassName("controllers")[0].appendChild(noverlap);
 document.getElementById("shepherd").onclick = function(){
-    mass_effect()
+    mass_effect();
 };
 
 var savesvg = document.createElement("INPUT");
@@ -269,10 +269,10 @@ document.getElementById("restore").onclick = function(){
 // end of Buttons.
 
 // initiating graph
-  var g = {
+var g = {
   nodes:[],
   edges:[]
-}
+};
 
 // setting boundaries on node- and edgesize by total amount of nodes.
 var totalnodes = graph.nodes.length;
@@ -339,7 +339,7 @@ if(totalnodes > 20000){
   edgesize = edgesize*1.15;
   factor = 0.71;
 } else {
-  nodesize = nodesize*2.25
+  nodesize = nodesize*2.25;
   edgesize = edgesize*1.2;
   factor = 0.67;
 }
@@ -364,7 +364,7 @@ if(totalnodes > 20000){
         return graph.nodes[i][use_as_y];
       }
     }
-  };
+  }
 function determinesize(i){
   if (!fixedsize){
     return 1;
@@ -383,7 +383,7 @@ for (var i = 0; i < graph.nodes.length; i++){
     var ypos = positioner("y",i);
     var size =  determinesize(i);
     var color = determinecolor(typology);        //this re-uses the typology variable to assign colors. You can use other variables as well.
-    var xside = xside +1;
+    xside = xside +1;
     if ((xside >= side) && (!positions_are_known)){
       xside = 1;
       yside = yside+1;
@@ -398,7 +398,7 @@ for (var i = 0; i < graph.nodes.length; i++){
       y: ypos,
       size: size,                 // you can force this to use a 'null' value if needed,-; but then disable the sigma.plugins.relativeSize functionality later in the script
       color: color,
-    })
+    });
   }
 
 
@@ -408,7 +408,7 @@ function edgecolor_assigner(state, alt){
   }else{
     return alt;
   }
-};
+}
 
 var countlog = {};
 function setcount(from, to){
@@ -417,14 +417,14 @@ function setcount(from, to){
     countlog[setcountid]=0;
     return 0;
   }else{
-    countlog[setcountid]=countlog[setcountid]+1
+    countlog[setcountid]=countlog[setcountid]+1;
     return countlog[setcountid]+1;
   }
-};
+}
 
 // Customize this code to push components from your data to g.edges.
 var edgescol = edgecolor_assigner(edgecol_is_nodecol,edgecol);
-for (var i = 0; i < graph.edges.length; i++){
+for (i = 0; i < graph.edges.length; i++){
   g.edges.push({
     id: graph.edges[i]["id"],
     source: graph.edges[i]["source"],
@@ -432,9 +432,10 @@ for (var i = 0; i < graph.edges.length; i++){
     color: edgescol,
     size: 1,
     type: edgetype,
-    count: setcount(graph.edges[i]["source"], graph.edges[i]["target"])
+    count: setcount(graph.edges[i]["source"], graph.edges[i]["target"]),
+    period: graph.edges[i]["period"]
   });
-};
+}
 
 countlog = null; //I don't need this object so kill it
 /*
@@ -504,7 +505,7 @@ function yoda(the_force, grav, scal, slow, linlog, heavy) {
     }else{
       return false;
     }
-  };
+  }
 if (the_force){
   document.getElementById("snitch").style.backgroundColor="green";
   var fa_options = {
@@ -520,13 +521,13 @@ if (the_force){
     outboundAttractionDistribution:true,
     adjustSize:true,
     edgeWeightInfluence:2,
-    barnesHutTheta:1}
+    barnesHutTheta:1};
   s.startForceAtlas2(fa_options);
 }else{
     document.getElementById("snitch").style.backgroundColor="red";
   s.killForceAtlas2();
 }
-};
+}
 
 // fruchterman Reingold function
 function fruchterman_func(){
@@ -541,10 +542,10 @@ function fruchterman_func(){
       gravity: fgrav,
       speed: fspeed,
       iterations: fiter
-    }
+    };
       sigma.layouts.fruchtermanReingold.start(s, fruchtermanconfig);
     }
-  };
+  }
 
 function mass_effect() {
   var config = {
@@ -572,18 +573,18 @@ function showrelation(edgeid){
   		    var inject_edge_data_only = "<p>Source: <span id='"+edge_src+"' class='hotlink_node'>"+edge_src_label+"</span></p><p>Target: <span id='"+edge_trg+"' class='hotlink_node'>"+edge_trg_label+"</span></p>";
   	  }else{
   		    var inject_edge_data_only = "<p>Node1: <span id='"+edge_src+"' class='hotlink_node'>"+edge_src_label+"</span></p><p>Node2: <span id='"+edge_trg+"' class='hotlink_node'>"+edge_trg_label+"</span></p>";
-  	  };
+  	  }
       var object_keys_edge = Object.keys(g.edges[ed]);
       for (var ek = 0; ek <object_keys_edge.length; ek++){
         if(edge_ignore.indexOf(object_keys_edge[ek])<0){
           inject_edge_data_only += "<p>"+object_keys_edge[ek]+": "+g.edges[ed][object_keys_edge[ek]]+"</p>";
         }
-      };
+      }
       document.getElementById("holdinjected").innerHTML +=inject_edge_data_only;
-      break
+      break;
     }
   }
-};
+}
 function shownode(nodeid, source){
   for (var n=0; n<g.nodes.length; n++){
     if (g.nodes[n].id === nodeid){
@@ -595,7 +596,7 @@ function shownode(nodeid, source){
         if (node_ignore.indexOf(object_keys_node[nk])<0){
           inject_node_data += "<p>"+object_keys_node[nk]+": "+g.nodes[n][object_keys_node[nk]]+"</p>";
         }
-      };
+      }
       var outtargets = [];
       var intargets = [];
       var temparr=[];
@@ -606,18 +607,18 @@ function shownode(nodeid, source){
           temparr.push(g.edges[outrel].id);
           outtargets.push(temparr);}
           temparr=[];
-      };
+      }
       for (var inrel = 0; inrel <g.edges.length; inrel ++){
         if ( g.edges[inrel].target === nodeid){
           temparr.push(g.edges[inrel].source);
           temparr.push(g.edges[inrel].id);
-          intargets.push(temparr)};
+          intargets.push(temparr);}
           temparr = [];
           }
       if (link_board &&(source != "graph")){
         s.graph.nodes().forEach(function(n){
           n.hidden=true;
-        })
+        });
         s.graph.edges().forEach(function(p){
           if ((p.target===nodeid) || (p.source===nodeid)){
             p.hidden=false;
@@ -627,23 +628,23 @@ function shownode(nodeid, source){
             p.hidden=true;
           }});
         s.refresh();
-      };
+      }
       // assigning names(label) to outbound relations.
    for (var otrg = 0; otrg <outtargets.length; otrg++){
      s.graph.nodes().forEach(function(n){
        if(n.id === outtargets[otrg][0]){
          outboundrelations = outboundrelations + "<p>"+n.label+". <span class='hotlink_edge' id='"+outtargets[otrg][1]+"' title='click for more information on this relationship'>E?</span> / <span class='hotlink_node' id='"+n.id+"'title='click for more information on this node'>N?</span> </p>";
        }
-     })
-   };
+     });
+   }
 
    for (var intrg = 0; intrg <intargets.length; intrg++){
      s.graph.nodes().forEach(function(n){
        if(n.id === intargets[intrg][0]){
          inboundrelations = inboundrelations + "<p>"+n.label+". <span class='hotlink_edge' id='"+intargets[intrg][1]+"' title='click for more information on this relationship'>E?</span> / <span class='hotlink_node' id='"+n.id+"' title='click for more information on this node'>N?</span> </p>";
        }
-     })
-   };
+     });
+   }
    if (directed === true){
    		document.getElementById("holdinjected").innerHTML=inject_node_data + "<h3>Outgoing relations: "+outtargets.length+"</h3>"+ outboundrelations + "<h3>Incoming relations: "+intargets.length+"</h3>"+ inboundrelations;
    	} else{
@@ -654,17 +655,17 @@ function shownode(nodeid, source){
    			if(n.id === allrelations[itterator][0]){
    				mutualrelations = mutualrelations + "<p>"+n.label+". <span class='hotlink_edge' id='"+allrelations[itterator][1]+"' title='click for more information on this relationship'>E?</span> / <span class='hotlink_node' id='"+n.id+"' title='click for more information on this node'>N?</span> </p>";
    			}
-   		})
-   	};
+   		});
+   	}
     document.getElementById("holdinjected").innerHTML=inject_node_data + "<h3>Relations: "+allrelations.length+"</h3>" + mutualrelations;//+ outboundrelations + "<h3>Incoming relations: "+intargets.length+"</h3>"+ inboundrelations;
    }
    document.getElementById("default-txt").style.visibility = "hidden";
    document.getElementById("holdinjected").style.visibility = "visible";
-      break
+   break;
   }
   }
 
-};
+}
 
 // custom code (show node information)
 s.bind("clickNode", function (e) {
@@ -677,7 +678,7 @@ s.bind("clickNode", function (e) {
     if (node_ignore.indexOf(object_keys_node[nk])<0){
       inject_node_data += "<p>"+object_keys_node[nk]+": "+e.data.node[object_keys_node[nk]]+"</p>";
     }
-  };
+  }
   var outtargets = [];
   var intargets = [];
   var temparr=[];
@@ -689,31 +690,31 @@ s.bind("clickNode", function (e) {
       temparr.push(graph.edges[outrel].id);
       outtargets.push(temparr);}
       temparr=[];
-  };
+  }
       // detecting incoming relations.
   for (var inrel = 0; inrel <graph.edges.length; inrel ++){
     if ( graph.edges[inrel].target === ego){
       temparr.push(graph.edges[inrel].source);
       temparr.push(graph.edges[inrel].id);
-      intargets.push(temparr)};
+      intargets.push(temparr);}
       temparr = [];
-  };
+  }
      // assigning names(label) to outbound relations.
   for (var otrg = 0; otrg <outtargets.length; otrg++){
     s.graph.nodes().forEach(function(n){
       if(n.id === outtargets[otrg][0]){
         outboundrelations = outboundrelations + "<p>"+n.label+". <span class='hotlink_edge' id='"+outtargets[otrg][1]+"' title='click for more information on this relationship'>E?</span> / <span class='hotlink_node' id='"+n.id+"'title='click for more information on this node'>N?</span> </p>";
       }
-    })
-  };
+    });
+  }
 
   for (var intrg = 0; intrg <intargets.length; intrg++){
     s.graph.nodes().forEach(function(n){
       if(n.id === intargets[intrg][0]){
         inboundrelations = inboundrelations + "<p>"+n.label+". <span class='hotlink_edge' id='"+intargets[intrg][1]+"' title='click for more information on this relationship'>E?</span> / <span class='hotlink_node' id='"+n.id+"' title='click for more information on this node'>N?</span> </p>";
       }
-    })
-  };
+    });
+  }
   if (directed === true){
 	  document.getElementById("holdinjected").innerHTML=inject_node_data + "<h3>Outgoing relations: "+outtargets.length+"</h3>"+ outboundrelations + "<h3>Incoming relations: "+intargets.length+"</h3>"+ inboundrelations;
   }else{
@@ -723,22 +724,22 @@ s.bind("clickNode", function (e) {
 			if(n.id === allrelations[itterator][0]){
 				mutualrelations = mutualrelations + "<p>"+n.label+". <span class='hotlink_edge' id='"+allrelations[itterator][1]+"' title='click for more information on this relationship'>E?</span> / <span class='hotlink_node' id='"+n.id+"' title='click for more information on this node'>N?</span> </p>";
 			}
-		})
-	};
+		});
+	}
 	document.getElementById("holdinjected").innerHTML=inject_node_data + "<h3>Relations: "+allrelations.length+"</h3>"+ mutualrelations;
-};
+}
   document.getElementById("default-txt").style.visibility = "hidden";
   document.getElementById("holdinjected").style.visibility = "visible";
 });
 
 var send_id = 0;
 $(document).on("click", ".hotlink_edge", function(){
-  send_id = this.getAttribute("id")
+  send_id = this.getAttribute("id");
   showrelation(send_id);
 });
 
 $(document).on("click", ".hotlink_node", function(){
-  send_id = this.getAttribute("id")
+  send_id = this.getAttribute("id");
   shownode(send_id);
 });
 // custom edgeclick
@@ -749,7 +750,7 @@ function lookup_id(value){
       return(graph.nodes[lookup].label);
     }
   }
-};
+}
 
 s.bind("clickEdge", function(e) {
   // numerical values for source and target are replaced by the node labels!
@@ -764,62 +765,23 @@ s.bind("clickEdge", function(e) {
 	inject_edge_data += "<p>Source: <span id='"+edge_src+"' class='hotlink_node'>"+edge_src_label+"</span></p><p>Target: <span id='"+edge_trg+"' class='hotlink_node'>"+edge_trg_label+"</span></p>";
   } else{
 	inject_edge_data += "<p>Node1: <span id='"+edge_src+"' class='hotlink_node'>"+edge_src_label+"</span></p><p>Node2: <span id='"+edge_trg+"' class='hotlink_node'>"+edge_trg_label+"</span></p>";
-  };
+  }
   for (var ek = 0; ek <object_keys_edge.length; ek++){
     if(edge_ignore.indexOf(object_keys_edge[ek])<0){
       inject_edge_data += "<p>"+object_keys_edge[ek]+": "+e.data.edge[object_keys_edge[ek]]+"</p>";
     }
-  };
+  }
   document.getElementById("holdinjected").innerHTML = inject_edge_data;
   document.getElementById("default-txt").style.visibility = "hidden";
   document.getElementById("holdinjected").style.visibility = "visible";
-})
+});
 // custom stageclick.
 s.bind("clickStage", function(){
   document.getElementById("default-txt").style.visibility = "visible";
   document.getElementById("holdinjected").style.visibility = "hidden";
   document.getElementById("holdinjected").innerHTML = "";     // emptying div
-})
-
-// custom righclickstage
-s.bind("rightClickStage", function(){
-  filter.undo();
-  filter.apply();
-})
-
-
-// custom rightclick = create ego network.
-s.bind("rightClickNode", function(e){
-  // fixes the contextmenu display when you click with the right button on a node
-  if (document.addEventListener) {
-    document.getElementById("graph-container").addEventListener("contextmenu", function(e) {
-        e.preventDefault();
-    }, false);
-} else {
-    document.attachEvent("oncontextmenu", function() {
-        window.event.returnValue = false;
-    });
-};
-  // end of contextmenu fix.
-
-  var center = e.data.node.id;
-  if (link_board){
-    shownode(center, "graph");
-  }
-  s.graph.nodes().forEach(function(n){
-    n.hidden=true;
-  })
-  s.graph.edges().forEach(function(p){
-    if ((p.target===center) || (p.source===center)){
-      p.hidden=false;
-      s.graph.nodes(p.target).hidden=false;
-      s.graph.nodes(p.source).hidden=false;
-    }else{
-      p.hidden=true;
-    }});
-  s.refresh();
 });
-  // end of right click overwrite code.
+
 
 // save as svg.
 document.getElementById("export").onclick = function() {
@@ -848,7 +810,43 @@ document.getElementById("exportpng").onclick =function() {
   });
 };
 
-//Sigma filtering
+//sigma filtering globals
+    //nodes:
+var orstring = "";
+var notstring = "";
+var filteroptions = {};
+    //edges:
+var edge_orstring = "";
+var edge_notstring = "";
+var filteroptions_edge = {};
+//end of filtering globals
+
+//sigma filtering resets
+function reset(reset_this){
+  var a = 0;
+  if (reset_this ==="nodes"){
+    orstring = "";
+    notstring = "";
+    filteroptions = {};
+    var selectors = document.getElementsByClassName("filtermain");
+    a = selectors.length;
+    while(a--){
+      document.getElementById(selectors[a].id).selectedIndex=0;     //resets filter options to default "select option" prompt
+    }
+  }else{
+    edge_orstring = "";
+    edge_notstring = "";
+    filteroptions_edge = {};
+    var edge_selectors = document.getElementsByClassName("edge_filtermain");
+    a = edge_selectors.length;
+    while(a--){
+      document.getElementById(edge_selectors[a].id).selectedIndex=0;     //resets filter options to default "select option" prompt
+    }
+  }
+}
+//end of sigma filterobject resets
+
+//Sigma filtering for nodes!
 var filter = new sigma.plugins.filter(s);
   // creating attribute filters.
   var attributenames = {};
@@ -864,13 +862,13 @@ var filter = new sigma.plugins.filter(s);
     var single = [];
     for(a=0; a<input.length; a++){
       if(single.indexOf(input[a]) === -1){
-        single.push(input[a])
+        single.push(input[a]);
       }
     }
     return single;
-};
+}
 
-for (attribute in attributenames){
+for (var attribute in attributenames){
   s.graph.nodes().forEach(function(node) {
     attributenames[attribute].push(node[attribute]);
   });
@@ -886,7 +884,6 @@ operator.setAttribute("id","ddoperator");
 operator.setAttribute("title","Select the operator first, this operator applies to the chose attributevalue.");
 document.getElementById("filterholder").appendChild(operator);
 
-
 var operatorlist = [["OR","or"], ["NOT","not"]];
 
 for (o =0; o < operatorlist.length; o++){
@@ -896,7 +893,7 @@ for (o =0; o < operatorlist.length; o++){
   document.getElementById("ddoperator").appendChild(logical);
 }
 
-for (key in attributenames){
+for (var key in attributenames){
   var option = document.createElement("SELECT");
   option.setAttribute("id","node-filter-"+key);
   option.setAttribute("class","filtermain");
@@ -908,7 +905,7 @@ for (key in attributenames){
   defaulter.setAttribute("selected", true);
   defaulter.setAttribute("disabled", true);
   document.getElementById("node-filter-"+key).appendChild(defaulter);
-  for (x in attributenames[key]){
+  for (var x in attributenames[key]){
     var prop = attributenames[key][x];
     var property = document.createElement("OPTION");
     property.setAttribute("value", prop);
@@ -922,36 +919,34 @@ for (key in attributenames){
 
 function runfilter(specsheet){
   filter.undo();
-  var orstring = "";
-  var notstring = "";
   for(key in specsheet){
     for(conditional in specsheet[key]){
       if (conditional === "not"){
-        var notstring = notstring +" && n['"+key+"']!==";
-        var notstring = notstring + specsheet[key][conditional].join(" && n['"+key+"'] !== ");
+        notstring = notstring +" && n['"+key+"']!==";
+        notstring = notstring + specsheet[key][conditional].join(" && n['"+key+"'] !== ");
         if(notstring[1]==="&"){
-          var notstring = notstring.slice(3, notstring.length)};
+          notstring = notstring.slice(3, notstring.length);}
           filter.nodesBy(function(n){
             return eval(notstring);
-          })
+          });
           filter.apply();
       }
       if (conditional ==="or"){
-        var orstring = orstring + " && n['"+key+"']===";
-        var orstring = orstring + specsheet[key][conditional].join(" || n['"+key+"'] === ");
+        orstring = orstring + " && n['"+key+"']===";
+        orstring = orstring + specsheet[key][conditional].join(" || n['"+key+"'] === ");
         if(orstring[1]==="&"){
-          var orstring = orstring.slice(3, orstring.length)};
-          var orstring = "("+orstring+")";
+          orstring = orstring.slice(3, orstring.length);}
+          orstring = "("+orstring+")";
           filter.nodesBy(function(n){
             return eval(orstring);
-          })
-          filter.apply()
+          });
+          filter.apply();
       }
-    };
+    }
   }
-};
+  reset("edges");
+}
 
-var filteroptions = {};
 function preparefilter(p1, p2){
   var operatorholder = document.getElementById("ddoperator");
   var operator = operatorholder[operatorholder.selectedIndex].value;
@@ -964,7 +959,7 @@ function preparefilter(p1, p2){
     filteroptions[p2][operator].push("'"+p1+"'");
   }
   runfilter(filteroptions);
-};
+}
 
 
 var selectors = document.getElementsByClassName("filtermain");
@@ -972,7 +967,7 @@ var a = selectors.length;
 while(a--){
   document.getElementById(selectors[a].id).addEventListener("change", function(e){
     preparefilter(this.value, this.children[1].className.split(" ")[0]);
-  })
+  });
 }
 
   //subfunction clear filtering
@@ -982,19 +977,185 @@ while(a--){
   removefilter.setAttribute("id","removefilter");
   document.getElementById("filterholder").insertAdjacentHTML("beforeend","<br><br>");
   document.getElementById("filterholder").appendChild(removefilter);
-  document.getElementById("removefilter").onclick =function() {
+  document.getElementById("removefilter").onclick =function()  {
     filter.undo();  //removes all filters active on the canvas.
-    filteroptions = {};     // Emptying the filteroptions-object!!!
+    reset("nodes");
     filter.apply(); // updates the graph on the canvas.
-    var a = selectors.length;
-    while(a--){
-      document.getElementById(selectors[a].id).selectedIndex=0;     //resets filter options to default "select option" prompt
-    }
+};
+//end of node filtering
+
+//start of edges_filtering 16/5/18 Feature request
+
+var edge_filter = new sigma.plugins.filter(s);
+// creating attribute filters.
+var edge_attributenames = {};
+var edge_objectkeys = (Object.keys(g.edges[0]));
+for(i=0; i<edge_objectkeys.length; i++){
+  if (edge_ignore.indexOf(edge_objectkeys[i])<0){
+    edge_attributenames[edge_objectkeys[i]] = [];
+  }
 }
-//end of filtering;
+for (edge_attribute in edge_attributenames){
+  s.graph.edges().forEach(function(edge) {
+    edge_attributenames[edge_attribute].push(edge[edge_attribute]);
+  });
+  edge_attributenames[edge_attribute]= singularity(edge_attributenames[edge_attribute]);
+}
+  //updated filterholder2 ==> use only for edge-filterbox!!
+var edge_filterbox = document.createElement("div");
+edge_filterbox.setAttribute("id", "edge_filtercontainer");
+document.getElementById("interaction").appendChild(edge_filterbox);
+document.getElementById("filterholder2").innerHTML+="Operator: ";
+var e_operator = document.createElement("SELECT");
+e_operator.setAttribute("id","edge_ddoperator");
+e_operator.setAttribute("title","Select the operator first, this operator applies to the chose attributevalue.");
+document.getElementById("filterholder2").appendChild(e_operator);
+
+for (o =0; o < operatorlist.length; o++){
+  logical = document.createElement("OPTION");
+  logical.text = operatorlist[o][0];
+  logical.value = operatorlist[o][1];
+  document.getElementById("edge_ddoperator").appendChild(logical);    //add code to nodes-function part!
+}
+
+for (key in edge_attributenames){
+  option = document.createElement("SELECT");
+  option.setAttribute("id","edge-filter-"+key);
+  option.setAttribute("class","edge_filtermain");
+  option.setAttribute("title", "Click an option to apply the operator to, the selected option for '"+key+"' gets pushed as a filter when it is clicked");
+  document.getElementById("filterholder2").innerHTML+="<br><span>"+key+": </span>";
+  document.getElementById("filterholder2").appendChild(option);
+  defaulter = document.createElement("OPTION");
+  defaulter.text = "select option";
+  defaulter.setAttribute("selected", true);
+  defaulter.setAttribute("disabled", true);
+  document.getElementById("edge-filter-"+key).appendChild(defaulter);
+  for (x in edge_attributenames[key]){
+    prop = edge_attributenames[key][x];
+    property = document.createElement("OPTION");
+    property.setAttribute("value", prop);
+    classfiller = key + " attributeoption";
+    property.setAttribute("class", classfiller);
+    property.setAttribute("id", "edge-filter-"+prop);
+    property.text = prop;
+    document.getElementById("edge-filter-"+key).appendChild(property);
+  }
+}
+
+function run_edges_filter(edge_specheet){
+  edge_filter.undo();
+  for(key in edge_specheet){
+    for(conditional in edge_specheet[key]){
+      if (conditional === "not"){
+        edge_notstring = edge_notstring +" && n['"+key+"']!==";
+        edge_notstring = edge_notstring + edge_specheet[key][conditional].join(" && n['"+key+"'] !== ");
+        if(edge_notstring[1]==="&"){
+          edge_notstring = edge_notstring.slice(3, edge_notstring.length);}
+          edge_filter.edgesBy(function(n){
+            return eval(edge_notstring);
+          });
+          edge_filter.apply();
+      }
+      if (conditional ==="or"){
+        edge_orstring = edge_orstring + " && n['"+key+"']===";
+        edge_orstring = edge_orstring + edge_specheet[key][conditional].join(" || n['"+key+"'] === ");
+        if(edge_orstring[1]==="&"){
+          edge_orstring = edge_orstring.slice(3, edge_orstring.length);}
+          edge_orstring = "("+edge_orstring+")";
+          edge_filter.edgesBy(function(n){
+            return eval(edge_orstring);
+          });
+          edge_filter.apply();
+      }
+    }
+  }
+  reset("nodes");
+}
+
+
+function prepare_edges_filter(p1, p2){
+  var operatorholder = document.getElementById("edge_ddoperator");
+  var e_operator = operatorholder[operatorholder.selectedIndex].value;
+  if(!(p2 in filteroptions_edge)){
+    filteroptions_edge[p2] = {};
+  }
+  if(!(e_operator in filteroptions_edge[p2])){
+    filteroptions_edge[p2][e_operator] = ["'"+p1+"'"];
+  }else{
+    filteroptions_edge[p2][e_operator].push("'"+p1+"'");
+  }
+  run_edges_filter(filteroptions_edge);
+}
+
+
+var edge_selectors = document.getElementsByClassName("edge_filtermain");
+a = edge_selectors.length;
+while(a--){
+  document.getElementById(edge_selectors[a].id).addEventListener("change", function(e){
+    prepare_edges_filter(this.value, this.children[1].className.split(" ")[0]);
+  });
+}
+
+  //subfunction clear filtering
+  var remove_edges_filter = document.createElement("INPUT");
+  remove_edges_filter.setAttribute("type","button");
+  remove_edges_filter.setAttribute("value","remove filters");
+  remove_edges_filter.setAttribute("id","remove_edges_filter");
+  document.getElementById("filterholder2").insertAdjacentHTML("beforeend","<br><br>");
+  document.getElementById("filterholder2").appendChild(remove_edges_filter);
+  document.getElementById("remove_edges_filter").onclick =function() {
+    edge_filter.undo();  //removes all filters active on the canvas.
+    reset("edges");
+    edge_filter.apply(); // updates the graph on the canvas.
+};
+//end of sigma edges filtering
+
+// custom righclickstage
+var center_filter = new sigma.plugins.filter(s);
+s.bind("rightClickStage", function(e){
+  // fixes the contextmenu display when you click with the right button on a node
+document.getElementById("graph-container").addEventListener("contextmenu", function(e) {
+        e.preventDefault();
+    });
+  // create globals so that you can address filterboxes and filterconditions for nodes and edges!
+  //filter.undo();
+  //filter.apply();
+  reset("edges");
+  reset("nodes");
+  center_filter.undo();
+  center_filter.apply();
+  //edge_filter.undo();
+  //edge_filter.apply();
+});
+
+// custom rightclick = create ego network.
+s.bind("rightClickNode", function(e){
+  // fixes the contextmenu display when you click with the right button on a node
+  if (document.addEventListener) {
+    document.getElementById("graph-container").addEventListener("contextmenu", function(e) {
+        e.preventDefault();
+    }, false);
+} else {
+    document.attachEvent("oncontextmenu", function() {
+        window.event.returnValue = false;
+    });
+}
+  // end of contextmenu fix.
+
+  var center = e.data.node.id;
+  if (link_board){
+    shownode(center, "graph");
+  }
+  center_filter.undo();
+  center_filter.neighborsOf(center);
+  center_filter.apply();
+  reset("edges");
+  reset("nodes");
+});
+  // end of right click overwrite code.
 
 //Feature request: Zoom in/reset/out: 8/12/17
-var factor = 1.25;
+var zoomfactor = 1.25;
 var maxin = 0.3;
 var maxout = 3;
 
@@ -1006,10 +1167,10 @@ document.getElementById("zoomcontrol").innerHTML = "<span>"+zoomin+zoomreset+zoo
 
 document.getElementById("zoomin").addEventListener("click",function(){
   if (lens.ratio > maxin){
-    lens.ratio = lens.ratio/factor;
+    lens.ratio = lens.ratio/zoomfactor;
     s.refresh();
   }
-})
+});
 
 document.getElementById("zoomout").addEventListener("click",function(){
   if (lens.ratio < maxout){
@@ -1027,8 +1188,7 @@ document.getElementById("zoomzero").addEventListener("click",function(){
   }
 });
 
-
 // Enable drag functionality.
 sigma.plugins.dragNodes(s, s.renderers[0]);
 s.refresh();
-};
+}

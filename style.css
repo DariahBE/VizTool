@@ -80,10 +80,14 @@ body,html{
   height: 70%;
 }
 
-#filterholder{
+#filterholder, #filterholder2{
   border: 2px solid #00407A;
   padding: 2px;
   border-radius: 5px;
+}
+
+#filterholder p, #filterholder2 p{
+  line-height: 0;
 }
 
 .footer {
