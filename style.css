@@ -183,3 +183,15 @@ label:not(.onoffswitch-label):hover{
 .display_unit > li:nth-child(even) {
   background-color: blue;
 }
+/*For namesearch feature request.*/
+.autocomplete_list{
+  background-color: #00407A;
+  padding: 5px;
+  visibility: hidden;
+}
+
+.autocomplete_item{
+  background-color: white;
+  margin: 1px;
+  border-radius: 5px;
+}

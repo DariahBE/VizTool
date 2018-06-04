@@ -484,14 +484,40 @@ function determinecolor(type){
 This tool enables one to use the same color for all edges, or to use the color from the source-node as color for the edge.
 
 <pre><code>
-  // Set Edgecolor same as Nodecolor? (use true or false.)
-	var edgecol_is_nodecol = false;         // use true or false
-	var edgecol = "rgba(30,78,87,0.2)";     // if you set edgecol_is_nodecol = false; this will be the default color of edges.
+  // Set Edgecolor same as Nodecolor? (use integers.)
+  // use 0, 1 or 2 (everything else is seen as 2)
+  // you MUST configure options for option1 in function edgecolor_assigner!
+var edgecol_is_nodecol = 1;
+                        //0 = edgecolor is determined by edgecol; all edges are the Same
+                        //1 = edgecolor is customizable in the function edgecolor_assigner
+                        //2 = all edgecolors are determined by the source-ID
+var edgecol = "rgba(30,78,87,0.2)";     // if you set edgecol_is_nodecol = 0; this will be the default color of edges.
+
 </code></pre>
 
-If <code>edgecol_is_nodecol</code> = <code>false</code> all edges will have one default color, this default color is determined by the variable <code>edgecol</code> below. This variable accepts: HEX, RGB and RGBA values.
+If <code>edgecol_is_nodecol</code> = <code>0</code> all edges will have one default color, this default color is determined by the variable <code>edgecol</code> below. This variable accepts: HEX, RGB and RGBA values.
 
-By setting <code>edgecol_is_nodecol</code> to <code>true</code> all edges will have the same color as the originating node.
+By setting <code>edgecol_is_nodecol</code> to <code>2</code> all edges will have the same color as the originating node.
+
+By setting <code>edgecol_is_nodecol</code> to <code>1</code> all edges can be manipulated by modifying the code in the function 'edgecol_assigner'. As it is, this function takes 5 arguments.
+- State: this is the integer used in the configuration part.
+- alt: the color used by default (== edgecol in configuration part)
+- source: the node where the edge originates.
+- target: the node where the edge links to.
+- me: the ID of the edge itself; this ID can be used to access properties of the edge, we recommend to access these properties via the data_input and **not** use the <code>g.edges</code> object!
+
+Source and target are the ID's of the nodes and can be used to access properties of those nodes. If you wish to use the nationality of the source node to determine the color, you write:
+<pre><code>
+    base = g.nodes[source]["nationality"];
+    if (base === "persian"){return "rgba(255,0,0,0.2)";}
+    else if (base === "greek") {return "rgba(0,200,200,0.2)";}
+    else if (base === "helenistic"){return "rgba(200,200,0,0.2)";}
+    else if (base === "egyptian"){return "rgba(100,255,20,0.2)";}
+    else if (base === "roman"){return null;}// Null will make the edgecolor render as SOURCEnode color.
+    else {return alt;}      // if case isn't set, make alt!
+</code></pre>
+
+the code snippet above assigns to the variable base the nationality of the source node of the current edge. Then multiple if and else if cases determine the color for a specific type of 'base'. If the program encounters a case that's not covered by any of the other cases, it will use the value stored in <code>edgecol</code> to colorize that edge. You can make the snippet return <code>null</code>, this will use the color of the originating node (source) as the color for the edge. 
 
 #### ignorelist ####
 This list is used by the filtering-segment of the code to prevent certain components from being used as filters. There's for instance no point in allowing users to filter on the x or y, position of a node.

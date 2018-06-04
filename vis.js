@@ -12,9 +12,14 @@ function determinecolor(type){
   else{return"rgba(198,88,62,0.4)";}
 }
 
-  // Set Edgecolor same as Nodecolor? (use true or false.)
-var edgecol_is_nodecol = false;         // use true or false
-var edgecol = "rgba(30,78,87,0.2)";     // if you set edgecol_is_nodecol = false; this will be the default color of edges.
+  // Set Edgecolor same as Nodecolor? (use integers.)
+  // use 0, 1 or 2 (everything else is seen as 2)
+  // you MUST configure options for option1 in function edgecolor_assigner!
+var edgecol_is_nodecol = 1;
+                        //0 = edgecolor is determined by edgecol; all edges are the Same
+                        //1 = edgecolor is customizable in the function edgecolor_assigner
+                        //2 = all edgecolors are determined by the source-ID
+var edgecol = "rgba(30,78,87,0.2)";     // if you set edgecol_is_nodecol = 0; this will be the default color of edges.
 
   // Filter ignorelist.
 var ignorelist = ["id", "x", "y", "size", "color", "label"];
@@ -63,7 +68,7 @@ choose_this_edgetype = choose_this_edgetype-1;      // from Human Readable to Ja
 var edgetype = types_of_edges[choose_this_edgetype];
 
   //Filling Blackboard div.
-document.getElementById("blackboard").innerHTML = '<div id="detail-container"> <div class="side_panels_content"> <div class="static"> <a href="https://www.kuleuven.be/kuleuven/" target="_blank"><img src="https://kuleuvencongres.be/eusea/images/kuleuven-logo-2012.png/image" alt="KUL" class="img-top"></a><a href="http://be.dariah.eu/" target="_blank"><img src="http://be.dariah.eu/sites/all/themes/dariah_be/logo.png" alt="Dariah-BE" class="img-top"></a> <p>Powered by: <a href="http://sigmajs.org/" target="_blank">sigma.js</a> </p> </div> <div class="txt"> <div id="holdinjected"> </div> <div id="default-txt"> <p id="default-msg">For more details on a given node, click it. Details appear here. </p></div></div></div></div><div id="graph-container"></div> <div id="interaction"> <div class="side_panels_content"> <div id="zoomcontrol"></div> <div class="controllers"> <div id="accordion"> <h4>Force Atlas 2 Layout <div id="snitch" title="This indicator shows you if ForceAtlas is still running. Red means that it\'s been stopped, green means that it\'s running. ForceAtlas is a continious layout algorithm and needs to be stopped explicitly"></div></h4><div><div class="FA_Options"><div id="scale_holder"><div class="display_unit"> <label for="scaling" title="ScalingRatio expands the graph, making it more sparse."><div>ScalingRatio: <input type="text" id="scaling" readonly style="border:0; background:none;"></div></label></div><div id="scaling_ratio" class="slider"></div></div><br><div id="gravity_holder"><div class="display_unit"><label for="gravity" title="Gravity attracts nodes to the center which prevents drifting nodes."><div>Gravity: <input type="text" id="gravity" readonly style="border:0; background:none;"></div></label></div><div id="gravity_factor" class="slider"></div></div><br><div id="slowdown_holder"><div class="display_unit"><label for="slowdown" title="Slowing down makes the nodes less prone to the repulsive forces from neighboring nodes. A higher value results in more stable nodes."><div>Slowdown: <input type="text" id="slowdown" readonly style="border:0; background:none;"></div></label></div><div id="slowdown_factor" class="slider"></div></div><br><div><label title="Makes the rendered clusters more tight by switching from lin-lin to lin-log(Andreas Noack). This is not recommended for small graphs.">LinLogmode:</label><div class="onoffswitch"><input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="linlogswitch"><label class="onoffswitch-label" for="linlogswitch"></label><span class="onoffswitch-inner"></span><span class="onoffswitch-switch"></span></div><br><label title="Forces a compact graph by attracting distant nodes, this force can be too strong and thus results in a biased placement.">StrongGravityMode:</label><div class="onoffswitch"><input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="heavy"><label class="onoffswitch-label" for="heavy"></label> <span class="onoffswitch-inner"></span><span class="onoffswitch-switch"></span></div><br></div></div><div class="FA_Controller"><input value="run forceatlas2" id="skywalker" type="button"><input value="stop forceatlas2" id="darth_vader" type="button"></div></div>  <h4>Fruchterman-Reingold Layout</h4><div><div class="FR_options"><div id="Fiterate_holder"><div class="display_unit"> <label for="iterator" title="How many times the algorithm is expected to run before rendering. WARNING: high values tend to be more precise, but are not suitable for large networks due to performance issues."><div>Iterations: <input type="text" id="iterator" readonly style="border:0; background:none;"></div></label></div><div id="iteration_ratio" class="slider"></div></div><br><div id="Fspeed_holder"><div class="display_unit"><label for ="F_speed" title="How fast the algorithms is expected to work. A higher value will give faster results at the cost of precision."><div>Speed: <input type="text" id="F_speed" readonly style="border:0; background:none;"></div></label></div><div id="speed_Fratio" class="slider"></div></div><br><div id="Fgrav_holder"><div class="display_unit"><label for ="F_gravity" title="This will attract all nodes to the center to avoid dispersion of unconnected nodes."><div>Gravity: <input type="text" id="F_gravity" readonly style="border:0; background:none;"></div></label></div><div id="gravity_Fratio" class="slider"></div></div><br></div><div id="FR_controller"></div></div></div><!-- hods the javascript buttons. --> <!-- no code here --> </div> <div id="filterholder"><p>Node filter</p> <!-- no code here --> </div> <div id="filterholder2"><p>Edge filter</p> <!-- no code here --> </div> <!--  <div id=viserion></div> --> <div class="footer"> <p>If Trismegistos helped you, share and <a href="http://www.trismegistos.org/about_how_to_cite" target="_blank">cite</a> us.</p> <div id="share"></div> <!-- JSOC Injection --> </div></div></div>';
+document.getElementById("blackboard").innerHTML = '<div id="detail-container"> <div class="side_panels_content"> <div class="static"> <a href="https://www.kuleuven.be/kuleuven/" target="_blank"><img src="https://kuleuvencongres.be/eusea/images/kuleuven-logo-2012.png/image" alt="KUL" class="img-top"></a><a href="http://be.dariah.eu/" target="_blank"><img src="http://be.dariah.eu/sites/all/themes/dariah_be/logo.png" alt="Dariah-BE" class="img-top"></a> <p>Powered by: <a href="http://sigmajs.org/" target="_blank">sigma.js</a> </p> </div> <div class="searchbox" id="suggestions">Search: <input type="text" id="namesearch" title="Search this graph based on a label and create an ego network."></input></div> <div class="txt"> <div id="holdinjected"> </div> <div id="default-txt"> <p id="default-msg">For more details on a given node, click it. Details appear here. </p></div></div></div></div><div id="graph-container"></div> <div id="interaction"> <div class="side_panels_content"> <div id="zoomcontrol"></div> <div class="controllers"> <div id="accordion"> <h4>Force Atlas 2 Layout <div id="snitch" title="This indicator shows you if ForceAtlas is still running. Red means that it\'s been stopped, green means that it\'s running. ForceAtlas is a continious layout algorithm and needs to be stopped explicitly"></div></h4><div><div class="FA_Options"><div id="scale_holder"><div class="display_unit"> <label for="scaling" title="ScalingRatio expands the graph, making it more sparse."><div>ScalingRatio: <input type="text" id="scaling" readonly style="border:0; background:none;"></div></label></div><div id="scaling_ratio" class="slider"></div></div><br><div id="gravity_holder"><div class="display_unit"><label for="gravity" title="Gravity attracts nodes to the center which prevents drifting nodes."><div>Gravity: <input type="text" id="gravity" readonly style="border:0; background:none;"></div></label></div><div id="gravity_factor" class="slider"></div></div><br><div id="slowdown_holder"><div class="display_unit"><label for="slowdown" title="Slowing down makes the nodes less prone to the repulsive forces from neighboring nodes. A higher value results in more stable nodes."><div>Slowdown: <input type="text" id="slowdown" readonly style="border:0; background:none;"></div></label></div><div id="slowdown_factor" class="slider"></div></div><br><div><label title="Makes the rendered clusters more tight by switching from lin-lin to lin-log(Andreas Noack). This is not recommended for small graphs.">LinLogmode:</label><div class="onoffswitch"><input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="linlogswitch"><label class="onoffswitch-label" for="linlogswitch"></label><span class="onoffswitch-inner"></span><span class="onoffswitch-switch"></span></div><br><label title="Forces a compact graph by attracting distant nodes, this force can be too strong and thus results in a biased placement.">StrongGravityMode:</label><div class="onoffswitch"><input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="heavy"><label class="onoffswitch-label" for="heavy"></label> <span class="onoffswitch-inner"></span><span class="onoffswitch-switch"></span></div><br></div></div><div class="FA_Controller"><input value="run forceatlas2" id="skywalker" type="button"><input value="stop forceatlas2" id="darth_vader" type="button"></div></div>  <h4>Fruchterman-Reingold Layout</h4><div><div class="FR_options"><div id="Fiterate_holder"><div class="display_unit"> <label for="iterator" title="How many times the algorithm is expected to run before rendering. WARNING: high values tend to be more precise, but are not suitable for large networks due to performance issues."><div>Iterations: <input type="text" id="iterator" readonly style="border:0; background:none;"></div></label></div><div id="iteration_ratio" class="slider"></div></div><br><div id="Fspeed_holder"><div class="display_unit"><label for ="F_speed" title="How fast the algorithms is expected to work. A higher value will give faster results at the cost of precision."><div>Speed: <input type="text" id="F_speed" readonly style="border:0; background:none;"></div></label></div><div id="speed_Fratio" class="slider"></div></div><br><div id="Fgrav_holder"><div class="display_unit"><label for ="F_gravity" title="This will attract all nodes to the center to avoid dispersion of unconnected nodes."><div>Gravity: <input type="text" id="F_gravity" readonly style="border:0; background:none;"></div></label></div><div id="gravity_Fratio" class="slider"></div></div><br></div><div id="FR_controller"></div></div></div><!-- hods the javascript buttons. --> <!-- no code here --> </div> <div id="filterholder"><p>Node filter</p> <!-- no code here --> </div> <div id="filterholder2"><p>Edge filter</p> <!-- no code here --> </div> <!--  <div id=viserion></div> --> <div class="footer"> <p>If Trismegistos helped you, share and <a href="http://www.trismegistos.org/about_how_to_cite" target="_blank">cite</a> us.</p> <div id="share"></div> <!-- JSOC Injection --> </div></div></div>';
 
   //end of filling blackboard.
   // JQUERY UI SLiders and accordion
@@ -365,6 +370,7 @@ if(totalnodes > 20000){
       }
     }
   }
+
 function determinesize(i){
   if (!fixedsize){
     return 1;
@@ -372,6 +378,7 @@ function determinesize(i){
     return graph.nodes[i][nameforsize];
   }
 }
+
 // Customize this code to push components from your data to g.nodes.
 for (var i = 0; i < graph.nodes.length; i++){
     var id = graph.nodes[i]["id"];
@@ -401,12 +408,23 @@ for (var i = 0; i < graph.nodes.length; i++){
     });
   }
 
-
-function edgecolor_assigner(state, alt){
-  if (state){
-    return null;
-  }else{
+function edgecolor_assigner(state, alt, source, target, me){
+  if (state === 0){
     return alt;
+  }else if (state === 1){
+    // for a more granular control set edgecol_is_nodecol to false and use source/target attribute or additional attributes to determine edgecolor type.
+    /*EXAMPLE: edgecolor based on source's nationality attribute.*/
+    base = g.nodes[source]["nationality"];
+    if (base === "persian"){return "rgba(255,0,0,0.2)";}
+    else if (base === "greek") {return "rgba(0,200,200,0.2)";}
+    else if (base === "helenistic"){return "rgba(200,200,0,0.2)";}
+    else if (base === "egyptian"){return "rgba(100,255,20,0.2)";}
+    else if (base === "roman"){return null;}// Null will make the edgecolor render as SOURCEnode color.
+    else {return alt;}      // if case isn't set, make alt!
+    /*Delete code above for alt-color on all edges */
+    //return alt;
+  }else{      //(option 2 is implied)
+    return null;
   }
 }
 
@@ -423,16 +441,21 @@ function setcount(from, to){
 }
 
 // Customize this code to push components from your data to g.edges.
-var edgescol = edgecolor_assigner(edgecol_is_nodecol,edgecol);
+var gsrc = null;
+var gtg = null;
+var eid = null
 for (i = 0; i < graph.edges.length; i++){
+  gsrc = graph.edges[i]["source"];
+  gtg = graph.edges[i]["target"];
+  eid = graph.edges[i]["id"];
   g.edges.push({
-    id: graph.edges[i]["id"],
-    source: graph.edges[i]["source"],
-    target: graph.edges[i]["target"],
-    color: edgescol,
+    id: eid,
+    source: gsrc,
+    target: gtg,
+    color: edgecolor_assigner(edgecol_is_nodecol,edgecol,gsrc,gtg, eid),
     size: 1,
     type: edgetype,
-    count: setcount(graph.edges[i]["source"], graph.edges[i]["target"]),
+    count: setcount(gsrc, gtg),
     period: graph.edges[i]["period"]
   });
 }
@@ -1191,4 +1214,68 @@ document.getElementById("zoomzero").addEventListener("click",function(){
 // Enable drag functionality.
 sigma.plugins.dragNodes(s, s.renderers[0]);
 s.refresh();
+
+//feature request 4/6/18 ==> Search on name
+var searchsuggestions = document.createElement("DIV");
+searchsuggestions.setAttribute("id", "autocompleter");
+searchsuggestions.setAttribute("class", "autocomplete_list");
+document.getElementById("suggestions").parentNode.appendChild(searchsuggestions);
+var have_used = false;
+function closeAllLists(){
+  searchsuggestions.innerHTML = "";
+}
+document.getElementById("namesearch").addEventListener("input", function namefinder(){
+  searchsuggestions.innerHTML = "";
+  val = document.getElementById("namesearch").value;
+  val_len = val.length;
+  if (val_len == 0){
+    document.getElementById("autocompleter").style.visibility="hidden";
+    if (have_used){
+      center_filter.undo();
+      center_filter.apply();
+      have_used = false;
+      document.getElementById("default-txt").style.visibility = "visible";    //clears out left information pane on reset from ego to full
+      document.getElementById("holdinjected").style.visibility = "hidden";
+      document.getElementById("holdinjected").innerHTML = "";     // emptying div
+    }
+    return null;}   //exits when going from >0 to zero input
+  s.graph.nodes().forEach(function(node){
+    name = node.label;
+    id = node.id;
+    if (name.substr(0, val_len).toUpperCase() === val.toUpperCase()){
+      /*create a DIV element for each matching element:*/
+      b = document.createElement("DIV");
+      b.setAttribute("class", "autocomplete_item");
+      /*make the matching letters bold:*/
+      b.innerHTML = "<strong>" + name.substr(0, val.length) + "</strong>";
+      b.innerHTML += name.substr(val.length);
+      b.innerHTML += " - "+id;
+      /*insert a input field that will hold the current array item's value:*/
+      b.innerHTML += "<input type='hidden' value='" + name+", "+id + "'>";
+      /*execute a function when someone clicks on the item value (DIV element):*/
+      b.addEventListener("click", function(e) {
+        var clicked = this.getElementsByTagName("input")[0].value.split(", ");
+        var clicked_name = clicked[0];
+        document.getElementById('namesearch').value = clicked_name;
+        var clicked_id = clicked[1];
+          /*insert the value for the autocomplete text field:*/
+          //create ego network on click.
+          reset("edges");
+          reset("nodes");
+          center_filter.undo();
+          center_filter.neighborsOf(clicked_id);
+          shownode(clicked_id, "graph");    //Adds node information
+          center_filter.apply();
+          reset("edges");
+          reset("nodes");
+          have_used = true;
+          /*close the list of autocompleted values,
+          (or any other open lists of autocompleted values:*/
+          closeAllLists();
+      });
+      searchsuggestions.appendChild(b);
+      document.getElementById("autocompleter").style.visibility="visible";
+    }
+    });
+});
 }
