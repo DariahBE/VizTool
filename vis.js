@@ -1223,6 +1223,7 @@ document.getElementById("suggestions").parentNode.appendChild(searchsuggestions)
 var have_used = false;
 function closeAllLists(){
   searchsuggestions.innerHTML = "";
+  document.getElementById("autocompleter").style.visibility="hidden";
 }
 document.getElementById("namesearch").addEventListener("input", function namefinder(){
   searchsuggestions.innerHTML = "";
@@ -1258,20 +1259,22 @@ document.getElementById("namesearch").addEventListener("input", function namefin
         var clicked_name = clicked[0];
         document.getElementById('namesearch').value = clicked_name;
         var clicked_id = clicked[1];
-          /*insert the value for the autocomplete text field:*/
-          //create ego network on click.
-          reset("edges");
-          reset("nodes");
-          center_filter.undo();
-          center_filter.neighborsOf(clicked_id);
-          shownode(clicked_id, "graph");    //Adds node information
-          center_filter.apply();
-          reset("edges");
-          reset("nodes");
-          have_used = true;
-          /*close the list of autocompleted values,
-          (or any other open lists of autocompleted values:*/
-          closeAllLists();
+        //hide searchbox (you have what you need)
+        document.getElementById("autocompleter").style.visibility="hidden";
+        /*insert the value for the autocomplete text field:*/
+        //create ego network on click.
+        reset("edges");
+        reset("nodes");
+        center_filter.undo();
+        center_filter.neighborsOf(clicked_id);
+        shownode(clicked_id, "graph");    //Adds node information
+        center_filter.apply();
+        reset("edges");
+        reset("nodes");
+        have_used = true;
+        /*close the list of autocompleted values,
+        (or any other open lists of autocompleted values:*/
+        closeAllLists();
       });
       searchsuggestions.appendChild(b);
       document.getElementById("autocompleter").style.visibility="visible";
