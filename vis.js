@@ -584,7 +584,7 @@ function mass_effect() {
 
 // Show relations based on in and outbound data.
 function showrelation(edgeid){
-  for (var ed = 0; ed <data.edges.length; ed++){
+  for (var ed = 0; ed <graph.edges.length; ed++){
     if(g.edges[ed].id === edgeid){
       document.getElementById("holdinjected").innerHTML = "";     // emptying div
       document.getElementById("holdinjected").innerHTML = "<h2>Edge info</h2>";
