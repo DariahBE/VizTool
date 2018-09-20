@@ -1,6 +1,7 @@
-# Sigma.js Drop-in tool
+# Sigma.js Drop-in tool 
 Shared under MIT-license,
 developed at the KULeuven for DARIAH-BE
+Styling by Yanne Broux
 
 **NOTICE**: draft version
 
