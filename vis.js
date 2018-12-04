@@ -1,7 +1,7 @@
 function create_spaghetti(graph, mode) {
 // end-user programming required.
 
-  // Assigning colors to variable defined in line 419 
+  // Assigning colors to variable defined in line 419
 function determinecolor(type){
   if (type==="author"){return "rgba(44,53,71,0.6)";}
   else if (type==="mythological figure"){return "rgba(0,112,172,0.6)";}
@@ -861,38 +861,20 @@ document.getElementById("exportpng").onclick =function() {
   });
 };
 
+
 //sigma filtering globals
-    //nodes:
-var orstring = "";
-var notstring = "";
-var filteroptions = {};
-    //edges:
-var edge_orstring = "";
-var edge_notstring = "";
-var filteroptions_edge = {};
-//end of filtering globals
+var filteroptions = [];
 
 //sigma filtering resets
-function reset(reset_this){
-  var a = 0;
-  if (reset_this ==="nodes"){
-    orstring = "";
-    notstring = "";
-    filteroptions = {};
-    var selectors = document.getElementsByClassName("filtermain");
-    a = selectors.length;
-    while(a--){
-      document.getElementById(selectors[a].id).selectedIndex=0;     //resets filter options to default "select option" prompt
-    }
-  }else{
-    edge_orstring = "";
-    edge_notstring = "";
-    filteroptions_edge = {};
-    var edge_selectors = document.getElementsByClassName("edge_filtermain");
-    a = edge_selectors.length;
-    while(a--){
-      document.getElementById(edge_selectors[a].id).selectedIndex=0;     //resets filter options to default "select option" prompt
-    }
+function reset(){
+  filteroptions = [];
+
+  for (var key in attributenames){
+    document.getElementById('node-filter-'+key).selectedIndex= 0;
+  }
+
+  for (var key in edge_attributenames){
+    document.getElementById('edge-filter-'+key).selectedIndex = 0;
   }
 }
 //end of sigma filterobject resets
@@ -935,6 +917,20 @@ operator.setAttribute("id","ddoperator");
 operator.setAttribute("title","Select the operator first, this operator applies to the chose attributevalue.");
 document.getElementById("filterholder").appendChild(operator);
 
+var edge_attributenames = {};
+var edge_objectkeys = (Object.keys(g.edges[0]));
+for(i=0; i<edge_objectkeys.length; i++){
+  if (edge_ignore.indexOf(edge_objectkeys[i])<0){
+    edge_attributenames[edge_objectkeys[i]] = [];
+  }
+}
+for (edge_attribute in edge_attributenames){
+  s.graph.edges().forEach(function(edge) {
+    edge_attributenames[edge_attribute].push(edge[edge_attribute]);
+  });
+  edge_attributenames[edge_attribute]= singularity(edge_attributenames[edge_attribute]);
+}
+
 var operatorlist = [["OR","or"], ["NOT","not"]];
 
 for (o =0; o < operatorlist.length; o++){
@@ -968,110 +964,6 @@ for (var key in attributenames){
   }
 }
 
-function runfilter(specsheet){
-  filter.undo();
-  for(key in specsheet){
-    for(conditional in specsheet[key]){
-      if (conditional === "not"){
-        notstring = notstring +" && n['"+key+"']!==";
-        notstring = notstring + specsheet[key][conditional].join(" && n['"+key+"'] !== ");
-        if(notstring[1]==="&"){
-          notstring = notstring.slice(3, notstring.length);}
-          filter.nodesBy(function(n){
-            return eval(notstring);
-          });
-          filter.apply();
-      }
-      if (conditional ==="or"){
-        orstring = orstring + " && n['"+key+"']===";
-        orstring = orstring + specsheet[key][conditional].join(" || n['"+key+"'] === ");
-        if(orstring[1]==="&"){
-          orstring = orstring.slice(3, orstring.length);}
-          orstring = "("+orstring+")";
-          filter.nodesBy(function(n){
-            return eval(orstring);
-          });
-          filter.apply();
-      }
-    }
-  }
-  reset("edges");
-}
-
-function preparefilter(p1, p2){
-  var operatorholder = document.getElementById("ddoperator");
-  var operator = operatorholder[operatorholder.selectedIndex].value;
-  if(!(p2 in filteroptions)){
-    filteroptions[p2] = {};
-  }
-  if(!(operator in filteroptions[p2])){
-    filteroptions[p2][operator] = ["'"+p1+"'"];
-  }else{
-    filteroptions[p2][operator].push("'"+p1+"'");
-  }
-  runfilter(filteroptions);
-  document.getElementById("default-txt").style.display = "block";
-  document.getElementById("holdinjected").style.display = "none";
-  document.getElementById("holdinjected").innerHTML = "";
-}
-
-
-var selectors = document.getElementsByClassName("filtermain");
-var a = selectors.length;
-while(a--){
-  document.getElementById(selectors[a].id).addEventListener("change", function(e){
-    preparefilter(this.value, this.children[1].className.split(" ")[0]);
-  });
-}
-
-  //subfunction clear filtering
-  var removefilter = document.createElement("INPUT");
-  removefilter.setAttribute("type","button");
-  removefilter.setAttribute("value","remove filters");
-  removefilter.setAttribute("id","removefilter");
-  document.getElementById("filterholder").insertAdjacentHTML("beforeend","<br>");
-  document.getElementById("filterholder").appendChild(removefilter);
-  document.getElementById("removefilter").onclick =function()  {
-    filter.undo();  //removes all filters active on the canvas.
-    reset("nodes");
-    filter.apply(); // updates the graph on the canvas.
-};
-//end of node filtering
-
-//start of edges_filtering 16/5/18 Feature request
-
-var edge_filter = new sigma.plugins.filter(s);
-// creating attribute filters.
-var edge_attributenames = {};
-var edge_objectkeys = (Object.keys(g.edges[0]));
-for(i=0; i<edge_objectkeys.length; i++){
-  if (edge_ignore.indexOf(edge_objectkeys[i])<0){
-    edge_attributenames[edge_objectkeys[i]] = [];
-  }
-}
-for (edge_attribute in edge_attributenames){
-  s.graph.edges().forEach(function(edge) {
-    edge_attributenames[edge_attribute].push(edge[edge_attribute]);
-  });
-  edge_attributenames[edge_attribute]= singularity(edge_attributenames[edge_attribute]);
-}
-  //updated filterholder2 ==> use only for edge-filterbox!!
-var edge_filterbox = document.createElement("div");
-edge_filterbox.setAttribute("id", "edge_filtercontainer");
-document.getElementById("interaction").appendChild(edge_filterbox);
-document.getElementById("filterholder2").innerHTML+="<p class='filter-title'>Operator:</p>";
-var e_operator = document.createElement("SELECT");
-e_operator.setAttribute("id","edge_ddoperator");
-e_operator.setAttribute("title","Select the operator first, this operator applies to the chose attributevalue.");
-document.getElementById("filterholder2").appendChild(e_operator);
-
-for (o =0; o < operatorlist.length; o++){
-  logical = document.createElement("OPTION");
-  logical.text = operatorlist[o][0];
-  logical.value = operatorlist[o][1];
-  document.getElementById("edge_ddoperator").appendChild(logical);    //add code to nodes-function part!
-}
-
 for (key in edge_attributenames){
   option = document.createElement("SELECT");
   option.setAttribute("id","edge-filter-"+key);
@@ -1096,76 +988,105 @@ for (key in edge_attributenames){
   }
 }
 
-function run_edges_filter(edge_specheet){
-  edge_filter.undo();
-  for(key in edge_specheet){
-    for(conditional in edge_specheet[key]){
-      if (conditional === "not"){
-        edge_notstring = edge_notstring +" && n['"+key+"']!==";
-        edge_notstring = edge_notstring + edge_specheet[key][conditional].join(" && n['"+key+"'] !== ");
-        if(edge_notstring[1]==="&"){
-          edge_notstring = edge_notstring.slice(3, edge_notstring.length);}
-          edge_filter.edgesBy(function(n){
-            return eval(edge_notstring);
-          });
-          edge_filter.apply();
+var edge_filterbox = document.createElement("div");
+edge_filterbox.setAttribute("id", "edge_filtercontainer");
+document.getElementById("interaction").appendChild(edge_filterbox);
+document.getElementById("filterholder2").innerHTML+="<p class='filter-title'>Operator:</p>";
+var e_operator = document.createElement("SELECT");
+e_operator.setAttribute("id","edge_ddoperator");
+e_operator.setAttribute("title","Select the operator first, this operator applies to the chose attributevalue.");
+document.getElementById("filterholder2").appendChild(e_operator);
+
+for (o =0; o < operatorlist.length; o++){
+  logical = document.createElement("OPTION");
+  logical.text = operatorlist[o][0];
+  logical.value = operatorlist[o][1];
+  document.getElementById("edge_ddoperator").appendChild(logical);    //add code to nodes-function part!
+}
+
+function preparefilter(p0, p1, p2){
+  if (p0 === "node"){
+    var operator = document.getElementById('ddoperator').value;
+  }else{
+    var operator = document.getElementById('edge_ddoperator').value;
+  }
+  filteroptions.push([p0, operator, p1, p2]);
+  // iterate over the filteroptions and apply them in order of addition of condition(c)
+  //chain filters together so that OR operator gets evaluated in the same run.
+  filter.undo();
+  var nodechain = {};
+  var edgechain = {};
+  for (var f= 0; f<filteroptions.length; f++){
+    var attr = filteroptions[f][3];
+    var operator = filteroptions[f][1];
+    var atval = filteroptions[f][2];
+    if (filteroptions[f][1]=== "or"){
+      var equality = '===';
+    }else{
+      var equality = '!==';
+    }
+    if(filteroptions[f][0]==="node"){
+      if(nodechain[attr+operator] == undefined){
+        nodechain[attr+operator] = "";
       }
-      if (conditional ==="or"){
-        edge_orstring = edge_orstring + " && n['"+key+"']===";
-        edge_orstring = edge_orstring + edge_specheet[key][conditional].join(" || n['"+key+"'] === ");
-        if(edge_orstring[1]==="&"){
-          edge_orstring = edge_orstring.slice(3, edge_orstring.length);}
-          edge_orstring = "("+edge_orstring+")";
-          edge_filter.edgesBy(function(n){
-            return eval(edge_orstring);
-          });
-          edge_filter.apply();
+      nodechain[attr+operator] += " || n."+attr+' '+ equality+ "'"+ atval+"'";
+    }else{
+      if(edgechain[attr+operator] == undefined){
+        edgechain[attr+operator] = "";
       }
+      edgechain[attr+operator] += " || n."+attr+' '+ equality+ "'"+ atval+"'";
     }
   }
-  reset("nodes");
+
+  for(var key in nodechain){
+    var instruction = nodechain[key].slice(4, nodechain[key].length);
+    filter.nodesBy(function(n){
+      return eval(instruction);
+    });
+  }
+
+  for(var key in edgechain){
+    var edge_instruction = edgechain[key].slice(4, edgechain[key].length);
+    filter.edgesBy(function(n){
+      return eval(edge_instruction);
+    });
+  }
+  filter.apply();
 }
 
 
-function prepare_edges_filter(p1, p2){
-  var operatorholder = document.getElementById("edge_ddoperator");
-  var e_operator = operatorholder[operatorholder.selectedIndex].value;
-  if(!(p2 in filteroptions_edge)){
-    filteroptions_edge[p2] = {};
-  }
-  if(!(e_operator in filteroptions_edge[p2])){
-    filteroptions_edge[p2][e_operator] = ["'"+p1+"'"];
-  }else{
-    filteroptions_edge[p2][e_operator].push("'"+p1+"'");
-  }
-  run_edges_filter(filteroptions_edge);
-  document.getElementById("default-txt").style.display = "block";
-  document.getElementById("holdinjected").style.display = "none";
-  document.getElementById("holdinjected").innerHTML = "";
+
+// making handles ==> if an object is clicked, the filterin process is triggered.
+// Reduction ==> Nodes and edges are parsed by same filtering method
+// now using one dictionary!!
+var selectors = document.getElementsByClassName("filtermain");
+var a = selectors.length;
+while(a--){
+  document.getElementById(selectors[a].id).addEventListener("change", function(e){
+    preparefilter("node", this.value, this.children[1].className.split(" ")[0]);
+  });
 }
-
-
 var edge_selectors = document.getElementsByClassName("edge_filtermain");
 a = edge_selectors.length;
 while(a--){
   document.getElementById(edge_selectors[a].id).addEventListener("change", function(e){
-    prepare_edges_filter(this.value, this.children[1].className.split(" ")[0]);
+    preparefilter("edge", this.value, this.children[1].className.split(" ")[0]);
   });
 }
 
   //subfunction clear filtering
-  var remove_edges_filter = document.createElement("INPUT");
-  remove_edges_filter.setAttribute("type","button");
-  remove_edges_filter.setAttribute("value","remove filters");
-  remove_edges_filter.setAttribute("id","remove_edges_filter");
-  document.getElementById("filterholder2").insertAdjacentHTML("beforeend","<br>");
-  document.getElementById("filterholder2").appendChild(remove_edges_filter);
-  document.getElementById("remove_edges_filter").onclick =function() {
-    edge_filter.undo();  //removes all filters active on the canvas.
-    reset("edges");
-    edge_filter.apply(); // updates the graph on the canvas.
+  var removefilter = document.createElement("INPUT");
+  removefilter.setAttribute("type","button");
+  removefilter.setAttribute("value","remove filters");
+  removefilter.setAttribute("id","removefilter");
+  document.getElementById("filterholder").insertAdjacentHTML("beforeend","<br>");
+  document.getElementById("filterholder").appendChild(removefilter);
+  document.getElementById("removefilter").onclick =function()  {
+    filter.undo();  //removes all filters active on the canvas.
+    reset();
+    filter.apply(); // updates the graph on the canvas.
 };
-//end of sigma edges filtering
+//end of  filtering V2
 
 // custom righclickstage
 var center_filter = new sigma.plugins.filter(s);
@@ -1177,8 +1098,7 @@ document.getElementById("graph-container").addEventListener("contextmenu", funct
   // create globals so that you can address filterboxes and filterconditions for nodes and edges!
   //filter.undo();
   //filter.apply();
-  reset("edges");
-  reset("nodes");
+  reset();
   center_filter.undo();
   center_filter.apply();
   //edge_filter.undo();
@@ -1206,8 +1126,7 @@ s.bind("rightClickNode", function(e){
   center_filter.undo();
   center_filter.neighborsOf(center);
   center_filter.apply();
-  reset("edges");
-  reset("nodes");
+  reset();
 });
   // end of right click overwrite code.
 
@@ -1315,14 +1234,11 @@ document.getElementById("namesearch").addEventListener("input", function namefin
         document.getElementById("autocompleter").style.visibility="hidden";
         /*insert the value for the autocomplete text field:*/
         //create ego network on click.
-        reset("edges");
-        reset("nodes");
+        reset();
         center_filter.undo();
         center_filter.neighborsOf(clicked_id);
         shownode(clicked_id, "graph");    //Adds node information
         center_filter.apply();
-        reset("edges");
-        reset("nodes");
         have_used = true;
         /*close the list of autocompleted values,
         (or any other open lists of autocompleted values:*/
