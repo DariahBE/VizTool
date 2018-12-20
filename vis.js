@@ -1,7 +1,7 @@
 function create_spaghetti(graph, mode) {
 // end-user programming required.
 
-  // Assigning colors to variable defined in line 419 
+  // Assigning colors to variable defined in line 419
 function determinecolor(type){
   if (type==="author"){return "rgba(44,53,71,0.6)";}
   else if (type==="mythological figure"){return "rgba(0,112,172,0.6)";}
@@ -68,7 +68,7 @@ choose_this_edgetype = choose_this_edgetype-1;      // from Human Readable to Ja
 var edgetype = types_of_edges[choose_this_edgetype];
 
   //Filling Blackboard div.
-document.getElementById("blackboard").innerHTML = '<div id="detail-container"><div class="side_panels_content"><div class="static"> <a href="https://www.kuleuven.be/kuleuven/" target="_blank"><img src="https://kuleuvencongres.be/eusea/images/kuleuven-logo-2012.png/image" alt="KUL" class="img-top"></a><a href="http://be.dariah.eu/" target="_blank"><img src="http://be.dariah.eu/sites/all/themes/dariah_be/logo.png" alt="Dariah-BE" class="img-top"></a> <p class="default-msg">Powered by: <a href="http://sigmajs.org/" target="_blank">sigma.js</a></p></div><div class="txt"><div id="holdinjected"></div> <div id="default-txt"> <p class="default-msg">For more details on a given node, click on it (aim well!). Details appear here.</p><p class="legend">Node legend</p><p class="paragraph" style="color: rgb(44,53,71)">author</p><p class="paragraph" style="color: rgb(110,54,99)">bard</p><p class="paragraph" style="color: rgb(34,63,122)">demi-god</p><p class="paragraph" style="color: rgb(255,187,0)">god</p><p class="paragraph" style="color: rgb(0,112,172)">mythological figure</p><p class="paragraph" style="color: rgb(10,169,198)">transcriber</p><p class="legend">Edge legend</p><p class="paragraph" style="color: rgb(97, 63, 37)">celtic</p><p class="paragraph" style="color: rgb(197, 165, 141)">etruscan</p><p class="paragraph", style="color: rgb(229, 225, 167)">greek</p><p class="paragraph" style="color: rgb(187, 182, 111)">roman</p></div></div><div class="searchbox" id="suggestions">Search:<input type="text" id="namesearch" title="Search this graph based on a label and create an ego network."></input></div></div></div><div id="graph-container"></div><div id="interaction"><div class="side_panels_content"> <div id="zoomcontrol"></div> <div class="controllers"><div id="accordion"> <h4>ForceAtlas2 <span class="openLayout">+</span><div id="snitch" title="This indicator shows you if ForceAtlas is still running. Red means that it\'s been stopped, green means that it\'s running. ForceAtlas is a continious layout algorithm and needs to be stopped explicitly"></div></h4><div><div class="FA_Options"><div id="scale_holder"><div class="display_unit"> <label for="scaling" title="ScalingRatio expands the graph, making it more sparse."><div>ScalingRatio: <input type="text" id="scaling" readonly style="border:0; background:none;"></div></label></div><div id="scaling_ratio" class="slider"></div></div><br><div id="gravity_holder"><div class="display_unit"><label for="gravity" title="Gravity attracts nodes to the center which prevents drifting nodes."><div>Gravity: <input type="text" id="gravity" readonly style="border:0; background:none;"></div></label></div><div id="gravity_factor" class="slider"></div></div><br><div id="slowdown_holder"><div class="display_unit"><label for="slowdown" title="Slowing down makes the nodes less prone to the repulsive forces from neighboring nodes. A higher value results in more stable nodes."><div>Slowdown: <input type="text" id="slowdown" readonly style="border:0; background:none;"></div></label></div><div id="slowdown_factor" class="slider"></div></div><br><div><label title="Makes the rendered clusters more tight by switching from lin-lin to lin-log(Andreas Noack). This is not recommended for small graphs.">LinLogmode:</label><div class="onoffswitch"><input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="linlogswitch"><label class="onoffswitch-label" for="linlogswitch"></label><span class="onoffswitch-inner"></span><span class="onoffswitch-switch"></span></div><br><label title="Forces a compact graph by attracting distant nodes, this force can be too strong and thus results in a biased placement.">StrongGravityMode:</label><div class="onoffswitch"><input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="heavy"><label class="onoffswitch-label" for="heavy"></label> <span class="onoffswitch-inner"></span><span class="onoffswitch-switch"></span></div><br></div></div><div id="FA_controller"><div><i class="fa fa-play-circle" aria-hidden="true" style="color: #801515"></i><input value="run forceatlas2" id="skywalker" type="button"></div><div><i class="fa fa-stop-circle" aria-hidden="true" style="color: #801515"></i><input value="stop forceatlas2" id="darth_vader" type="button"></div></div></div><h4>Fruchterman-Reingold<span class="openLayout">+</span></h4><div><div class="FR_options"><div id="Fiterate_holder"><div class="display_unit"> <label for="iterator" title="How many times the algorithm is expected to run before rendering. WARNING: high values tend to be more precise, but are not suitable for large networks due to performance issues."><div>Iterations: <input type="text" id="iterator" readonly style="border:0; background:none;"></div></label></div><div id="iteration_ratio" class="slider"></div></div><br><div id="Fspeed_holder"><div class="display_unit"><label for ="F_speed" title="How fast the algorithms is expected to work. A higher value will give faster results at the cost of precision."><div>Speed: <input type="text" id="F_speed" readonly style="border:0; background:none;"></div></label></div><div id="speed_Fratio" class="slider"></div></div><br><div id="Fgrav_holder"><div class="display_unit"><label for ="F_gravity" title="This will attract all nodes to the center to avoid dispersion of unconnected nodes."><div>Gravity: <input type="text" id="F_gravity" readonly style="border:0; background:none;"></div></label></div><div id="gravity_Fratio" class="slider"></div></div><br></div><div id="FR_controller"></div></div></div><h4 class="filterheader">Node filters<span class="openLayout">+</span></h4><div id="filterholder"></div><h4 class="filterheader">Edge filters<span class="openLayout">+</span></h4><div id="filterholder2"></div><div id="deletefilter"></div><div id="exportbuttons"><h4>Options</h4></div><!-- holds the javascript buttons. --> <!-- no code here --> </div><div class="footer"> <p>If Trismegistos helped you, share and <a href="http://www.trismegistos.org/about_how_to_cite" target="_blank">cite</a> us.</p> <div id="share"></div> <!-- JSOC Injection --> </div></div></div>';
+document.getElementById("blackboard").innerHTML = '<div id="detail-container"><div class="side_panels_content"><div class="static"> <a href="https://www.kuleuven.be/kuleuven/" target="_blank"><img src="https://kuleuvencongres.be/eusea/images/kuleuven-logo-2012.png/image" alt="KUL" class="img-top"></a><a href="http://be.dariah.eu/" target="_blank"><img src="http://be.dariah.eu/sites/all/themes/dariah_be/logo.png" alt="Dariah-BE" class="img-top"></a> <p class="default-msg">Powered by: <a href="http://sigmajs.org/" target="_blank">sigma.js</a></p></div><div class="txt"><div id="holdinjected"></div> <div id="default-txt"> <p class="default-msg">For more details on a given node, click on it (aim well!). Details appear here.</p><p class="legend">Node legend</p><p class="paragraph" style="color: rgb(44,53,71)">author</p><p class="paragraph" style="color: rgb(110,54,99)">bard</p><p class="paragraph" style="color: rgb(34,63,122)">demi-god</p><p class="paragraph" style="color: rgb(255,187,0)">god</p><p class="paragraph" style="color: rgb(0,112,172)">mythological figure</p><p class="paragraph" style="color: rgb(10,169,198)">transcriber</p><p class="legend">Edge legend</p><p class="paragraph" style="color: rgb(97, 63, 37)">celtic</p><p class="paragraph" style="color: rgb(197, 165, 141)">etruscan</p><p class="paragraph", style="color: rgb(229, 225, 167)">greek</p><p class="paragraph" style="color: rgb(187, 182, 111)">roman</p></div></div><div class="searchbox" id="suggestions">Search:<input type="text" id="namesearch" title="Search this graph based on a label and create an ego network."></input></div></div></div><div id="graph-container"></div><div id="interaction"><div class="side_panels_content"> <div id="zoomcontrol"></div> <div class="controllers"><div id="accordion"> <h4>ForceAtlas2 <span class="openLayout">+</span><div id="snitch" title="This indicator shows you if ForceAtlas is still running. Red means that it\'s been stopped, green means that it\'s running. ForceAtlas is a continious layout algorithm and needs to be stopped explicitly"></div></h4><div><div class="FA_Options"><div id="scale_holder"><div class="display_unit"> <label for="scaling" title="ScalingRatio expands the graph, making it more sparse."><div>ScalingRatio: <input type="text" id="scaling" readonly style="border:0; background:none;"></div></label></div><div id="scaling_ratio" class="slider"></div></div><br><div id="gravity_holder"><div class="display_unit"><label for="gravity" title="Gravity attracts nodes to the center which prevents drifting nodes."><div>Gravity: <input type="text" id="gravity" readonly style="border:0; background:none;"></div></label></div><div id="gravity_factor" class="slider"></div></div><br><div id="slowdown_holder"><div class="display_unit"><label for="slowdown" title="Slowing down makes the nodes less prone to the repulsive forces from neighboring nodes. A higher value results in more stable nodes."><div>Slowdown: <input type="text" id="slowdown" readonly style="border:0; background:none;"></div></label></div><div id="slowdown_factor" class="slider"></div></div><br><div><label title="Makes the rendered clusters more tight by switching from lin-lin to lin-log(Andreas Noack). This is not recommended for small graphs.">LinLogmode:</label><div class="onoffswitch"><input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="linlogswitch"><label class="onoffswitch-label" for="linlogswitch"></label><span class="onoffswitch-inner"></span><span class="onoffswitch-switch"></span></div><br><label title="Forces a compact graph by attracting distant nodes, this force can be too strong and thus results in a biased placement.">StrongGravityMode:</label><div class="onoffswitch"><input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="heavy"><label class="onoffswitch-label" for="heavy"></label> <span class="onoffswitch-inner"></span><span class="onoffswitch-switch"></span></div><br></div></div><div id="FA_controller"><div><i class="fa fa-play-circle" aria-hidden="true" style="color: #801515"></i><input value="run forceatlas2" id="skywalker" type="button"></div><div><i class="fa fa-stop-circle" aria-hidden="true" style="color: #801515"></i><input value="stop forceatlas2" id="darth_vader" type="button"></div></div></div><h4>Fruchterman-Reingold<span class="openLayout">+</span></h4><div><div class="FR_options"><div id="Fiterate_holder"><div class="display_unit"> <label for="iterator" title="How many times the algorithm is expected to run before rendering. WARNING: high values tend to be more precise, but are not suitable for large networks due to performance issues."><div>Iterations: <input type="text" id="iterator" readonly style="border:0; background:none;"></div></label></div><div id="iteration_ratio" class="slider"></div></div><br><div id="Fspeed_holder"><div class="display_unit"><label for ="F_speed" title="How fast the algorithms is expected to work. A higher value will give faster results at the cost of precision."><div>Speed: <input type="text" id="F_speed" readonly style="border:0; background:none;"></div></label></div><div id="speed_Fratio" class="slider"></div></div><br><div id="Fgrav_holder"><div class="display_unit"><label for ="F_gravity" title="This will attract all nodes to the center to avoid dispersion of unconnected nodes."><div>Gravity: <input type="text" id="F_gravity" readonly style="border:0; background:none;"></div></label></div><div id="gravity_Fratio" class="slider"></div></div><br></div><div id="FR_controller"></div></div><h4>Node filters<span class="openLayout">+</span></h4><div id="filterholder"></div><h4>Edge filters<span class="openLayout">+</span></h4><div id="filterholder2"></div></div><div id="exportbuttons"><h4>Options</h4></div><!-- holds the javascript buttons. --> <!-- no code here --> </div><div class="footer"> <p>If Trismegistos helped you, share and <a href="http://www.trismegistos.org/about_how_to_cite" target="_blank">cite</a> us.</p> <div id="share"></div> <!-- JSOC Injection --> </div></div></div>';
 
   //end of filling blackboard.
   // JQUERY UI SLiders and accordion
@@ -861,7 +861,7 @@ document.getElementById("exportpng").onclick =function() {
   });
 };
 
-//Node and edge filters version 2
+
 //sigma filtering globals
 var filteroptions = [];
 
@@ -1037,20 +1037,29 @@ function preparefilter(p0, p1, p2){
       edgechain[attr+operator] += " || n."+attr+' '+ equality+ "'"+ atval+"'";
     }
   }
+  function chainmaker(input){
+    var ret ="";
+    for(var key in input){
+      ret += "("+input[key].slice(4, input[key].length) +") && ";
+    }
+    ret = ret.slice(0, ret.length-3);
+    return ret;
+  }
 
-  for(var key in nodechain){
-    var instruction = nodechain[key].slice(4, nodechain[key].length);
+  var fullnodechain = chainmaker(nodechain);
+  var fulledgechain = chainmaker(edgechain);
+
+  if (fullnodechain !== ""){
     filter.nodesBy(function(n){
-      return eval(instruction);
+      return eval(fullnodechain);
+    });
+  }
+  if (fulledgechain != ""){
+    filter.edgesBy(function(n){
+      return eval(fulledgechain);
     });
   }
 
-  for(var key in edgechain){
-    var edge_instruction = edgechain[key].slice(4, edgechain[key].length);
-    filter.edgesBy(function(n){
-      return eval(edge_instruction);
-    });
-  }
   filter.apply();
 }
 
@@ -1077,15 +1086,16 @@ while(a--){
   //subfunction clear filtering
   var removefilter = document.createElement("INPUT");
   removefilter.setAttribute("type","button");
-  removefilter.setAttribute("value","Remove all filters");
+  removefilter.setAttribute("value","remove filters");
   removefilter.setAttribute("id","removefilter");
-  document.getElementById("deletefilter").appendChild(removefilter);
+  document.getElementById("filterholder").insertAdjacentHTML("beforeend","<br>");
+  document.getElementById("filterholder").appendChild(removefilter);
   document.getElementById("removefilter").onclick =function()  {
     filter.undo();  //removes all filters active on the canvas.
     reset();
     filter.apply(); // updates the graph on the canvas.
 };
-//end of filtering V2
+//end of  filtering V2
 
 // custom righclickstage
 var center_filter = new sigma.plugins.filter(s);
@@ -1097,8 +1107,7 @@ document.getElementById("graph-container").addEventListener("contextmenu", funct
   // create globals so that you can address filterboxes and filterconditions for nodes and edges!
   //filter.undo();
   //filter.apply();
-  reset("edges");
-  reset("nodes");
+  reset();
   center_filter.undo();
   center_filter.apply();
   //edge_filter.undo();
@@ -1126,8 +1135,7 @@ s.bind("rightClickNode", function(e){
   center_filter.undo();
   center_filter.neighborsOf(center);
   center_filter.apply();
-  reset("edges");
-  reset("nodes");
+  reset();
 });
   // end of right click overwrite code.
 
@@ -1235,14 +1243,11 @@ document.getElementById("namesearch").addEventListener("input", function namefin
         document.getElementById("autocompleter").style.visibility="hidden";
         /*insert the value for the autocomplete text field:*/
         //create ego network on click.
-        reset("edges");
-        reset("nodes");
+        reset();
         center_filter.undo();
         center_filter.neighborsOf(clicked_id);
         shownode(clicked_id, "graph");    //Adds node information
         center_filter.apply();
-        reset("edges");
-        reset("nodes");
         have_used = true;
         /*close the list of autocompleted values,
         (or any other open lists of autocompleted values:*/
@@ -1254,11 +1259,3 @@ document.getElementById("namesearch").addEventListener("input", function namefin
     });
 });
 }
-
-//Open and close node and edge filters
-jQuery(document).ready(function(){
-  $('.filterheader').click(function() {
-      $(this).next().toggle();
-      return false;
-  }).next().hide();
-});
